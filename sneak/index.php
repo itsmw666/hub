@@ -47,25 +47,15 @@ if (isset($_POST['submit'])) {
     <meta charset="UTF-8">
     <title>SNEAK // mwilliams.cc</title>
     <link rel="stylesheet" href="/style.css">
+    <style>
+        textarea, input[type="text"], select { width: 100%; margin-bottom: 1rem; padding: 10px; font-family: monospace; box-sizing: border-box; }
+        .result { background: #f0f0f0; padding: 20px; border-left: 4px solid #900; word-break: break-all; font-family: monospace; }
+    </style>
 </head>
 <body>
+
 <?php include $_SERVER['DOCUMENT_ROOT'] . '/nav.php'; ?>
-    <div style="font-size:1.2rem; letter-spacing:2px; margin-bottom:2rem;"><a href="/" style="color:#111; text-decoration:none;">MWILLIAMS.CC</a></div>
-    <div style="font-variant:small-caps; font-size:0.9rem; color:#666; border-bottom:1px solid #ddd; margin-bottom:0.5rem;">Vibe Coding</div>
-    <ul style="list-style:none; padding:0; margin:0 0 1rem 0;">
-        <li style="margin:0.4rem 0;"><a href="/courtroom" style="color:#111; text-decoration:none; font-style:italic; font-size:0.95rem;">Courtroom Dramas</a></li>
-        <li style="margin:0.4rem 0;"><a href="/sneak" style="color:#111; text-decoration:none; font-style:italic; font-size:0.95rem;">SNEAK</a></li>
-    </ul>
-    <div style="font-variant:small-caps; font-size:0.9rem; color:#666; border-bottom:1px solid #ddd; margin-bottom:0.5rem;">Security Research</div>
-    <ul style="list-style:none; padding:0; margin:0 0 1rem 0;">
-        <li style="margin:0.4rem 0;"><a href="/origins" style="color:#111; text-decoration:none; font-style:italic; font-size:0.95rem;">Origins</a></li>
-        <li style="margin:0.4rem 0;"><a href="/llm" style="color:#111; text-decoration:none; font-style:italic; font-size:0.95rem;">LLM Research</a></li>
-    </ul>
-    <div style="font-variant:small-caps; font-size:0.9rem; color:#666; border-bottom:1px solid #ddd; margin-bottom:0.5rem;">External</div>
-    <ul style="list-style:none; padding:0; margin:0;">
-        <li style="margin:0.4rem 0;"><a href="https://github.com/itsmw666" target="_blank" style="color:#111; text-decoration:none; font-style:italic; font-size:0.95rem;">GitHub</a></li>
-    </ul>
-</nav>
+
 <main>
     <h1>SNEAK Evolution</h1>
     <form method="post">
@@ -88,5 +78,6 @@ if (isset($_POST['submit'])) {
         <div class="result"><?=htmlspecialchars($output)?></div>
     <?php endif; ?>
 </main>
+
 </body>
 </html>
