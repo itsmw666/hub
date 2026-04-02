@@ -1,6 +1,7 @@
 
 
-<!DOCTYPE html>
+
+       
 <html lang="en-GB">
 <head>
     <meta charset="UTF-8">
@@ -17,7 +18,6 @@
             text-rendering: optimizeLegibility;
         }
 
-        /* Sidebar Navigation: Discrete Links */
         nav {
             width: 260px;
             height: 100vh;
@@ -62,7 +62,6 @@
             color: #990000;
         }
 
-        /* Main Content Column */
         main {
             margin-left: 260px;
             padding: 4rem 8% 4rem 8%;
@@ -106,6 +105,15 @@
             hyphens: auto;
         }
 
+        a.inline {
+            color: #111;
+            text-decoration: underline;
+        }
+
+        a.inline:hover {
+            color: #990000;
+        }
+
         .node-id {
             font-family: monospace;
             font-size: 0.8rem;
@@ -143,21 +151,13 @@
 
 <main>
     <h1>Index</h1>
-    <span class="subtitle">System Documentation & Investigative Analysis</span>
+    <span class="subtitle">Security research, vibe coding, and notes from the gap between how systems work and how people think they work.</span>
 
     <section>
-        <h3>Core Methodology</h3>
-        <p>This environment serves as a centralized hub for high-compute data analysis and technical research. By prioritizing raw information density over visual ornamentation, the site maintains a focus on the structural integrity of the data presented.</p>
-    </section>
+        <h3>What this is</h3>
+        <p>A working notebook, not a portfolio. The security research here covers things I've found interesting enough to write up — from legacy cryptography to the current state of LLM deployment in places it probably shouldn't be trusted. The vibe coding section is exactly what it sounds like: experiments built quickly, often for no good reason, occasionally useful.</p>
 
-    <section>
-        <h3>Vibe Coding & Narrative</h3>
-        <p>The <strong>Courtroom Dramas</strong> project represents the primary application of vibe coding — leveraging intent-based deployment to reconstruct complex legal data into dramatized, investigative formats. These files are updated dynamically as new datasets are processed.</p>
-    </section>
-
-    <section>
-        <h3>Security Standards</h3>
-        <p>All security research contained herein is conducted within isolated sandbox environments. Documentation includes white-box audit results and exploratory lab notes regarding system vulnerabilities and cryptographic protocols.</p>
+        <p>The thread that runs through all of it is the same question I've been asking since the late nineties: what does this system actually do, versus what do its owners think it does? Start with the <a class="inline" href="/origins">Origins</a> page if you want the longer version of that.</p>
     </section>
 
     <div class="node-id">
@@ -167,8 +167,4 @@
 
 </body>
 </html>
-
-
-       
-
     
