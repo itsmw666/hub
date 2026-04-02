@@ -1,68 +1,137 @@
-<!DOCTYPE html>
+
+
+
+    <!DOCTYPE html>
 <html lang="en-GB">
 <head>
     <meta charset="UTF-8">
-    <title>mwilliams.cc // Documentation Hub</title>
+    <title>mwilliams.cc // Documentation</title>
     <style>
-        body { font-family: "Times New Roman", Times, serif; background: #ffffff; color: #000; margin: 0; padding: 0; line-height: 1.4; }
-        header { background: #990000; color: #fff; padding: 10px 20px; border-bottom: 2px solid #000; }
-        .wrapper { display: flex; min-height: 100vh; }
-        
-        /* Left Sidebar Navigation */
-        nav { width: 220px; background: #eeeeee; border-right: 1px solid #cccccc; padding: 20px; font-size: 0.9rem; }
-        nav h3 { font-size: 1rem; border-bottom: 1px solid #888; margin-bottom: 10px; text-transform: uppercase; }
-        nav ul { list-style: none; padding: 0; margin: 0 0 20px 0; }
-        nav ul li { margin-bottom: 5px; }
-        nav a { color: #0000ee; text-decoration: none; }
-        nav a:hover { text-decoration: underline; }
+        /* Tufte-inspired CSS Core */
+        body {
+            background-color: #fffff8;
+            color: #111;
+            font-family: et-book, Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+        }
 
-        /* Main Content Area */
-        main { flex: 1; padding: 30px 40px; max-width: 900px; }
-        h1 { font-size: 1.8rem; margin-top: 0; color: #990000; }
-        h2 { font-size: 1.3rem; border-bottom: 1px solid #ccc; padding-bottom: 5px; margin-top: 30px; }
-        .timestamp { font-size: 0.8rem; color: #666; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
-        p { margin-bottom: 1.2em; text-align: justify; }
-        code { font-family: monospace; background: #f4f4f4; padding: 2px 4px; }
+        /* Fixed Navigation Sidebar (The Discrete Links) */
+        nav {
+            width: 220px;
+            position: fixed;
+            left: 5vw;
+            top: 5rem;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        nav h2 {
+            font-variant: small-caps;
+            font-weight: normal;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            border-bottom: 1px solid #ccc;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 2rem;
+        }
+
+        nav a {
+            color: #111;
+            text-decoration: none;
+            font-style: italic;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        /* Main Content Column */
+        main {
+            width: 55%;
+            max-width: 800px;
+            padding: 5rem 0;
+            margin-left: 200px; /* Offset for Sidebar */
+        }
+
+        h1 {
+            font-weight: normal;
+            font-style: italic;
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-style: italic;
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            display: block;
+        }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 1.4rem;
+            text-align: justify;
+        }
+
+        section {
+            margin-top: 3rem;
+            border-top: 1px solid #efefef;
+            padding-top: 1rem;
+        }
+
+        h3 {
+            font-weight: normal;
+            font-style: italic;
+            font-size: 1.4rem;
+        }
     </style>
 </head>
 <body>
 
-<header>
-    <strong>mwilliams.cc Central Documentation</strong>
-</header>
+<nav>
+    <h2>Directories</h2>
+    <ul>
+        <li><a href="/courtroom">Courtroom Data</a></li>
+        <li><a href="/vibe">Vibe Coding</a></li>
+    </ul>
 
-<div class="wrapper">
-    <nav>
-        <h3>Projects</h3>
-        <ul>
-            <li><a href="/courtroom">Courtroom Data</a></li>
-        </ul>
+    <h2>Research</h2>
+    <ul>
+        <li><a href="/security">Security Analysis</a></li>
+        <li><a href="/archive">Static Archives</a></li>
+    </ul>
 
-        <h3>Research</h3>
-        <ul>
-            <li><a href="#">Vibe Coding</a></li>
-            <li><a href="#">Security Research</a></li>
-        </ul>
+    <h2>External</h2>
+    <ul>
+        <li><a href="https://github.com/itsmw666">GitHub</a></li>
+    </ul>
+</nav>
 
-        <h3>Archives</h3>
-        <ul>
-            <li><a href="https://github.com/itsmw666" target="_blank">GitHub Profile</a></li>
-        </ul>
-    </nav>
+<main>
+    <h1>Technical Index</h1>
+    <span class="subtitle">Data Analysis & Security Research Portfolio</span>
 
-    <main>
-        <h1>Technical Knowledge Base</h1>
-        <div class="timestamp">Last modified: 2026-04-02</div>
+    <section>
+        <p>This repository hosts discrete data sets and research documentation. The architecture follows a minimalist approach to maximize information density and readability for technical audits.</p>
+    </section>
 
-        <p>This site serves as a central repository for technical documentation, security research, and investigative data analysis. All information is provided in a raw, functional format.</p>
+    <section>
+        <h3>Vibe Coding Methodology</h3>
+        <p>Current research focuses on the transition from traditional syntax-heavy development to high-compute, intent-based deployment. Data points for this project are linked in the sidebar.</p>
+    </section>
 
-        <h2>Overview</h2>
-        <p>Current focuses include high-compute data analysis and the application of "vibe coding" methodologies to rapid prototyping. This index manages the link structure for sub-directories hosted on this server.</p>
-
-        <h2>Current Directory Status</h2>
-        <p>Active nodes are listed in the sidebar. Static research articles are currently under compilation and will be deployed as flat HTML files to maintain performance and accessibility.</p>
-    </main>
-</div>
+    <section>
+        <h3>Security Research</h3>
+        <p>A compilation of white-box testing results and system vulnerability audits conducted in sandbox environments. All entries are archived as flat HTML for maximum integrity.</p>
+    </section>
+</main>
 
 </body>
 </html>
