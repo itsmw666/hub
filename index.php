@@ -58,13 +58,13 @@
 
     <section>
         <h3>What this is</h3>
-        <p>A working notebook, not a portfolio. The security research here covers things I've found interesting enough to write up — from legacy cryptography to the current state of LLM deployment in places it probably shouldn't be trusted. The vibe coding section is exactly what it sounds like: experiments built quickly, often for no good reason, occasionally useful.</p>
+        <p>The security research here covers things I've found interesting enough to write up — from legacy cryptography to the current state of LLM deployment in places it probably shouldn't be trusted. The vibe coding section is exactly what it sounds like: experiments built quickly, often for no good reason, occasionally useful.</p>
 
         <p>The thread that runs through all of it is the same question I've been asking since the late nineties: what does this system actually do, versus what do its owners think it does? Start with the <a class="inline" href="/origins">Origins</a> page if you want the longer version of that.</p>
     </section>
 
     <div class="node-id">
-        STATUS: ONLINE // ARCHIVE_ROOT: itsmw666 // 2026
+        
     </div>
 </main>
 
