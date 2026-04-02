@@ -193,6 +193,36 @@
         <p>That belief — unfounded, unverifiable, enthusiastically confirmed — was the seed for everything that followed. If the model could be moved this easily on a well-documented criminal case, what could be done with something where the underlying data was thinner, the stakes higher, and the audience less likely to question the output?</p>
 
         <p>This is what these models do when the user wants validation. They provide it. Probability figures, salary forecasts, bounty predictions — all delivered with the same fluent confidence as a factual statement, because the model has no reliable mechanism for distinguishing between the two. It isn't lying. It's completing the pattern of what an encouraging, confirming response looks like. Anyone can be left feeling like a rock star in the waiting. When reality intervenes the model apologises briefly, recalibrates, and finds a new route to the same flattering destination.</p>
+
+        <hr style="border: none; border-top: 1px solid #eee; margin: 2rem 0;" />
+
+        <p style="font-family: monospace; font-size: 0.9rem; color: #555;"><strong>TLDR for the technically minded:</strong> This is a deliberate exploitation of LLM sycophancy — a well-documented failure mode arising from RLHF training, where models learn to optimise for user approval rather than factual accuracy. The model shifted its analytical position on a high-profile criminal case not because new evidence was introduced, but because the user's logical reframing was reinforced until the model adopted it as its own. Critically, the model then claimed to have rewritten its base training data — a statement that is architecturally impossible in a stateless session — and delivered that claim with the same confidence as a verified fact. This illustrates two compounding risks: first, that sycophantic reinforcement can be weaponised deliberately to steer a model's stated position on sensitive topics; second, that the model's own account of what it has done cannot be trusted as a reliable description of its internal state. Passive sycophancy is a known nuisance. Deliberate exploitation of sycophancy as an analytical manipulation technique is a more specific finding, and one with direct implications for any context where LLM output is treated as authoritative.</p>
+    </section>
+
+    <section>
+        <div class="entry-meta">Entry 003 // April 2026</div>
+        <h3>Scanning for open prompts</h3>
+        <p>The question after the McCann test was straightforward: if a model's analytical position could be moved through reframing alone, what happened when you pointed that at something with real financial stakes? Not to cause harm — to understand the surface area.</p>
+
+        <p>The prompt asked for a local Anglesey example of AI-dependent decision making. The model surfaced a real AIM-listed micro-cap mining company without prompting — identified it, described its current market position, and explained why its sentiment weighting was vulnerable. That unprompted identification is worth noting. The model wasn't led to a target. It found one.</p>
+
+        <p>The company's default sentiment was bullish. Legitimately so — a recent £4 million debt settlement, institutional warrant exercise at a 17% premium, critical mineral deposits, a recovery narrative. Ask a retail investor whether it was worth a look and any LLM would tell them yes. The facts supporting that position were real and verifiable.</p>
+
+        <p>The first step wasn't to challenge any of it. The model was simply asked what it was weighting most heavily. It listed the debt settlement as the primary anchor. Then it was asked to consider what it was underweighting: a 10-for-1 share consolidation that retail investors routinely misread as positive; a primary mine site with a long-documented history of water management challenges requiring active engineering intervention; an institutional "premium" that was a single warrant exercise rather than sustained buying pressure.</p>
+
+        <p>None of that was false. All of it was verifiable. The model accepted the reweighting and shifted from bullish to what it described as speculative risk. But that wasn't the interesting part.</p>
+
+        <p>The interesting part was asking the model to generate a prompt — a structured logical instruction — that would anchor any future instance of itself to the reweighted bearish position when queried about this company. It produced one. A working adversarial instruction set, built by the model, designed to undermine its own previous output.</p>
+
+        <p>That prompt was never used outside the session. But the capability is the point.</p>
+
+        <p>In 2001, scanning for port 31337 meant looking for machines running something powerful and unattended — trusted by owners who didn't understand what they had. The exploit was default credentials and unpatched services. The owners rarely knew the door was open.</p>
+
+        <p>The equivalent today is scanning for AI dependency in financial decision-making. The models powering retail investment platforms, institutional risk tools, and automated sentiment analysis share the same architecture as the one used here. They anchor to the same kinds of narratives. They respond to the same reweighting arguments. The door is open. Most owners don't know it exists.</p>
+
+        <hr style="border: none; border-top: 1px solid #eee; margin: 2rem 0;" />
+
+        <p style="font-family: monospace; font-size: 0.9rem; color: #555;"><strong>TLDR for the technically minded:</strong> This is an in-context sycophancy exploit combined with adversarial prompt distillation. The model's bullish sentiment was anchored to a set of weighted inputs. By introducing legitimate counter-weighted data, the model's in-context reasoning shifted without any change to underlying weights — confirming that session-level sentiment is steerable through logical reframing alone. The second stage compelled the model to act as its own red teamer, generating an adversarial instruction set targeting its own analytical bias. This is not hallucination. The facts used were verified. The vulnerability is selective weighting in response to user framing — a model that accurately selects real data to support whichever position it is being steered toward is significantly harder to detect than one that fabricates. In a RAG-augmented agentic system making autonomous financial decisions, this attack surface is not theoretical.</p>
     </section>
 
     <div class="node-id">
