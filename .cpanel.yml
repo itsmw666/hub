@@ -1,5 +1,5 @@
-yaml---
+---
 deployment:
   tasks:
     - export DEPLOYPATH=/home/williams/public_html/
-    - /bin/cp -Rf /home/williams/repositories/itsmw666/. $DEPLOYPATH
+    - /bin/cp -Rf /home/williams/repositories/. $DEPLOYPATH
