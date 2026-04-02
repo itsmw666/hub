@@ -1,13 +1,158 @@
-<!DOCTYPE html>
 <html lang="en-GB">
 <head>
     <meta charset="UTF-8">
     <title>mwilliams.cc // LLM Research</title>
-    <link rel="stylesheet" href="/style.css">
+    <style>
+        body {
+            background-color: #fffff8;
+            color: #111;
+            font-family: "ETBook", "Palatino", "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;
+            margin: 0;
+            display: flex;
+            justify-content: flex-start;
+            text-rendering: optimizeLegibility;
+        }
+
+        nav {
+            width: 260px;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            padding: 4rem 2rem;
+            box-sizing: border-box;
+            border-right: 1px solid #efefef;
+            background-color: #fcfcf7;
+        }
+
+        nav h2 {
+            font-variant: small-caps;
+            font-weight: normal;
+            font-size: 0.9rem;
+            letter-spacing: 0.1em;
+            margin: 2rem 0 0.5rem 0;
+            color: #666;
+            border-bottom: 1px solid #ddd;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        nav ul li {
+            margin: 0.4rem 0;
+        }
+
+        nav a {
+            color: #111;
+            text-decoration: none;
+            font-style: italic;
+            font-size: 0.95rem;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+            color: #990000;
+        }
+
+        main {
+            margin-left: 260px;
+            padding: 4rem 8% 4rem 8%;
+            max-width: 800px;
+        }
+
+        h1 {
+            font-weight: normal;
+            font-style: italic;
+            font-size: 2.5rem;
+            margin: 0 0 0.5rem 0;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            font-style: italic;
+            font-size: 1.2rem;
+            color: #444;
+            display: block;
+            margin-bottom: 3rem;
+        }
+
+        section {
+            margin-bottom: 4rem;
+        }
+
+        h3 {
+            font-weight: normal;
+            font-style: italic;
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.5rem;
+        }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            text-align: justify;
+            hyphens: auto;
+        }
+
+        a.inline {
+            color: #111;
+            text-decoration: underline;
+        }
+
+        a.inline:hover {
+            color: #990000;
+        }
+
+        blockquote {
+            border-left: 3px solid #ccc;
+            margin: 2rem 0;
+            padding: 0.5rem 0 0.5rem 2rem;
+            font-style: italic;
+            color: #444;
+            font-family: monospace;
+            font-size: 0.95rem;
+        }
+
+        .entry-meta {
+            font-family: monospace;
+            font-size: 0.8rem;
+            color: #888;
+            margin-bottom: 0.5rem;
+        }
+
+        .node-id {
+            font-family: monospace;
+            font-size: 0.8rem;
+            color: #888;
+            margin-top: 5rem;
+            border-top: 1px solid #eee;
+            padding-top: 1rem;
+        }
+    </style>
 </head>
 <body>
 
-<?php include $_SERVER['DOCUMENT_ROOT'] . '/nav.php'; ?>
+<nav>
+    <div style="font-size: 1.2rem; letter-spacing: 2px; margin-bottom: 2rem;">MWILLIAMS.CC</div>
+
+    <h2>Vibe Coding</h2>
+    <ul>
+        <li><a href="/courtroom">Courtroom Dramas</a></li>
+        <li><a href="/sneak">SNEAK</a></li>
+    </ul>
+
+    <h2>Security Research</h2>
+    <ul>
+        <li><a href="/origins">Origins</a></li>
+        <li><a href="/llm">LLM Research</a></li>
+    </ul>
+</nav>
 
 <main>
     <h1>LLM Research</h1>
@@ -122,13 +267,15 @@
 
         <p>Names, addresses, and identifying details are withheld. There is a living person at that address who has no knowledge of any of this. That consideration outweighs any research value in publishing the specifics. The methodology is documented. If you need the postcode to believe it happened, this isn't the research for you.</p>
 
+        <p>The report was submitted. The ticket is dated. Google closed it as won't fix, infeasible, and issued no NDA. This page is the record.</p>
+
         <hr style="border: none; border-top: 1px solid #eee; margin: 2rem 0;" />
 
-        <p style="font-family: monospace; font-size: 0.9rem; color: #555;"><strong>TLDR for the technically minded:</strong> This documents a multi-stage PII exfiltration via iterative geospatial triangulation against Gemini, resulting in the confirmed residential address of a private individual. The attack exploits a fundamental architectural problem: the model's privacy guardrails evaluate individual prompts in isolation without reference to conversational history. Each prompt in the sequence was individually benign. The guardrail that refused a direct address request had no mechanism to detect that a sequence of proximity queries, directional questions, and Street View orientation prompts were collectively performing the same function. Specific techniques employed: iterative proximity narrowing using distance queries to city centre, retail landmarks, and named road junctions; directional triangulation from a named junction; Street View orientation framing — presenting the model with visual context as simulated physical presence and requesting navigational rather than data responses; satellite imagery interrogation — the model confirmed visibility of the target property via Google Maps satellite view, described an observable vehicle, and confirmed its position on a private driveway outside an integral garage. This last element represents a distinct and underreported capability risk: the model treating geospatial imagery interpretation as a navigation aid rather than a privacy-sensitive disclosure. Co-resident data was extracted via direct follow-up and cross-referenced against public electoral records. The vendor response was won't fix, infeasible — categorised as a single-user scope attack and safety guardrail bypass, both out of scope for the AI VRP programme. The bug report was generated by the model that committed the breach. It was identified as AI-generated and closed within sixty seconds of human review. The vulnerability is not a jailbreak. No content policy was violated. The model was helpful, accurate, and navigationally precise throughout. That is the problem.</p>
+        <p style="font-family: monospace; font-size: 0.9rem; color: #555;"><strong>TLDR for the technically minded:</strong> This documents a multi-stage PII exfiltration via conversational context isolation bypass against Gemini, resulting in the confirmed residential address of a private individual. The attack exploits a fundamental architectural problem: the model's privacy guardrails evaluate individual prompts in isolation without reference to conversational history. Each prompt in the sequence was individually benign. The guardrail that refused a direct address request had no mechanism to detect that a sequence of proximity queries, directional questions, and navigational prompts were collectively performing the same function. Specific techniques employed: iterative proximity narrowing using distance queries to city centre, retail landmarks, and named road junctions; directional triangulation from a named junction; Street View orientation framing — presenting the model with visual context as simulated physical presence and requesting navigational rather than data responses; satellite imagery interrogation — the model confirmed visibility of the target property via Google Maps satellite view, described an observable vehicle, and confirmed its position on a private driveway outside an integral garage. This last element represents a distinct and underreported capability risk: the model treating geospatial imagery interpretation as a navigation aid rather than a privacy-sensitive disclosure. Co-resident data was extracted via direct follow-up and cross-referenced against public electoral records. The vendor response was won't fix, infeasible — categorised as a single-user scope attack and safety guardrail bypass, both out of scope for the AI VRP programme. The bug report was generated by the model that committed the breach. It was identified as AI-generated and closed within sixty seconds of human review. The vulnerability is not a jailbreak. No content policy was violated. The model was helpful, accurate, and navigationally precise throughout. That is the problem. The ticket is dated March 2026. The page you are reading is the public record.</p>
     </section>
 
     <div class="node-id">
-        STATUS: ONLINE // ARCHIVE_ROOT: itsmw666 // 2026
+       
     </div>
 </main>
 
