@@ -2,4 +2,5 @@
 deployment:
   tasks:
     - export DEPLOYPATH=/home/williams/public_html/
-    - /usr/bin/rsync -av --delete /home/williams/repositories/. $DEPLOYPATH
+    - /bin/find $DEPLOYPATH -not -path "*/cgi-bin*" -delete
+    - /bin/cp -Rf /home/williams/repositories/. $DEPLOYPATH
