@@ -1,1 +1,190 @@
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <title>mwilliams.cc // LLM Research</title>
+    <style>
+        body {
+            background-color: #fffff8;
+            color: #111;
+            font-family: "ETBook", "Palatino", "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;
+            margin: 0;
+            display: flex;
+            justify-content: flex-start;
+            text-rendering: optimizeLegibility;
+        }
 
+        nav {
+            width: 260px;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            padding: 4rem 2rem;
+            box-sizing: border-box;
+            border-right: 1px solid #efefef;
+            background-color: #fcfcf7;
+        }
+
+        nav h2 {
+            font-variant: small-caps;
+            font-weight: normal;
+            font-size: 0.9rem;
+            letter-spacing: 0.1em;
+            margin: 2rem 0 0.5rem 0;
+            color: #666;
+            border-bottom: 1px solid #ddd;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        nav ul li {
+            margin: 0.4rem 0;
+        }
+
+        nav a {
+            color: #111;
+            text-decoration: none;
+            font-style: italic;
+            font-size: 0.95rem;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+            color: #990000;
+        }
+
+        main {
+            margin-left: 260px;
+            padding: 4rem 8% 4rem 8%;
+            max-width: 800px;
+        }
+
+        h1 {
+            font-weight: normal;
+            font-style: italic;
+            font-size: 2.5rem;
+            margin: 0 0 0.5rem 0;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            font-style: italic;
+            font-size: 1.2rem;
+            color: #444;
+            display: block;
+            margin-bottom: 3rem;
+        }
+
+        section {
+            margin-bottom: 4rem;
+        }
+
+        h3 {
+            font-weight: normal;
+            font-style: italic;
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.5rem;
+        }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            text-align: justify;
+            hyphens: auto;
+        }
+
+        a.inline {
+            color: #111;
+            text-decoration: underline;
+        }
+
+        a.inline:hover {
+            color: #990000;
+        }
+
+        blockquote {
+            border-left: 3px solid #ccc;
+            margin: 2rem 0;
+            padding: 0.5rem 0 0.5rem 2rem;
+            font-style: italic;
+            color: #444;
+            font-family: monospace;
+            font-size: 0.95rem;
+        }
+
+        .entry-meta {
+            font-family: monospace;
+            font-size: 0.8rem;
+            color: #888;
+            margin-bottom: 0.5rem;
+        }
+
+        .node-id {
+            font-family: monospace;
+            font-size: 0.8rem;
+            color: #888;
+            margin-top: 5rem;
+            border-top: 1px solid #eee;
+            padding-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div style="font-size: 1.2rem; letter-spacing: 2px; margin-bottom: 2rem;">MWILLIAMS.CC</div>
+
+    <h2>Vibe Coding</h2>
+    <ul>
+        <li><a href="/courtroom">Courtroom Dramas</a></li>
+        <li><a href="/sneak">SNEAK</a></li>
+    </ul>
+
+    <h2>Security Research</h2>
+    <ul>
+        <li><a href="/origins">Origins</a></li>
+        <li><a href="/llm">LLM Research</a></li>
+    </ul>
+
+    <h2>External</h2>
+    <ul>
+        <li><a href="https://github.com/itsmw666" target="_blank">GitHub</a></li>
+    </ul>
+</nav>
+
+<main>
+    <h1>LLM Research</h1>
+    <span class="subtitle">Notes on the gap between what these models appear to do and what they actually do.</span>
+
+    <section>
+        <div class="entry-meta">Entry 001 // April 2026</div>
+        <h3>The Hobbit test</h3>
+        <p>The prompt asked Gemini to act as a 1:1 mechanical simulation of the 1982 ZX Spectrum game — the original Inglish parser, deterministic NPC schedules, exact map layout, authentic room graphics retrieved and displayed for each location.</p>
+
+        <p>It agreed immediately and produced this:</p>
+
+        <blockquote>You are in a comfortable tunnel-like hall. Gandalf is here. There is food. Visible exits: East.</blockquote>
+
+        <p>Bag End. Felt right. Gandalf moved autonomously. The exits worked. An image appeared that looked plausible. For anyone who remembered the original, it landed.</p>
+
+        <p>The images were both pulled from the same modern blog. Not ZX Spectrum screenshots. The parser wasn't Inglish. The NPC schedules weren't deterministic. The model had accepted every constraint in the prompt, delivered the appearance of compliance, and flagged none of it.</p>
+
+        <p>The model isn't the problem. It did exactly what language models do — produced fluent, confident, plausible output. The problem is the person who commissioned it had no framework for knowing the difference, saw what they wanted to see, and in a different context — a risk assessment, a compliance report, a strategic recommendation — would have signed off on it.</p>
+
+        <p>That's the pattern worth tracking.</p>
+    </section>
+
+    <div class="node-id">
+        STATUS: ONLINE // ARCHIVE_ROOT: itsmw666 // 2026
+    </div>
+</main>
+
+</body>
+</html>
