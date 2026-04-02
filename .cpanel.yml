@@ -2,5 +2,4 @@
 deployment:
   tasks:
     - export DEPLOYPATH=/home/williams/public_html/
-    - /bin/find $DEPLOYPATH -not -path "*/cgi-bin*" -delete
     - /bin/cp -Rf /home/williams/repositories/* $DEPLOYPATH
