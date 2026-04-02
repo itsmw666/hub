@@ -46,16 +46,10 @@ if (isset($_POST['submit'])) {
 <head>
     <meta charset="UTF-8">
     <title>SNEAK // mwilliams.cc</title>
-    <style>
-        body { background: #fffff8; color: #111; font-family: "ETBook", serif; margin: 0; display: flex; }
-        nav { width: 260px; position: fixed; height: 100vh; padding: 2rem; border-right: 1px solid #efefef; background: #fcfcf7; }
-        main { margin-left: 260px; padding: 4rem; max-width: 800px; width: 100%; }
-        textarea, input, select { width: 100%; margin-bottom: 1rem; padding: 10px; font-family: monospace; box-sizing: border-box; }
-        .result { background: #f0f0f0; padding: 20px; border-left: 4px solid #900; word-break: break-all; font-family: monospace; }
-    </style>
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-<nav style="width:260px; position:fixed; height:100vh; padding:4rem 2rem; border-right:1px solid #efefef; background:#fcfcf7; box-sizing:border-box;">
+<?php include $_SERVER['DOCUMENT_ROOT'] . '/nav.php'; ?>
     <div style="font-size:1.2rem; letter-spacing:2px; margin-bottom:2rem;"><a href="/" style="color:#111; text-decoration:none;">MWILLIAMS.CC</a></div>
     <div style="font-variant:small-caps; font-size:0.9rem; color:#666; border-bottom:1px solid #ddd; margin-bottom:0.5rem;">Vibe Coding</div>
     <ul style="list-style:none; padding:0; margin:0 0 1rem 0;">
