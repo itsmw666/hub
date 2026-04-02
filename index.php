@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <title>mwilliams.cc // Index</title>
+    <style>
+        body {
+            background-color: #fffff8;
+            color: #111;
+            font-family: "ETBook", "Palatino", "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;
+            margin: 0;
+            display: flex;
+            justify-content: flex-start;
+            text-rendering: optimizeLegibility;
+        }
+        nav {
+            width: 260px;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            padding: 4rem 2rem;
+            box-sizing: border-box;
+            border-right: 1px solid #efefef;
+            background-color: #fcfcf7;
+        }
+        nav h2 {
+            font-variant: small-caps;
+            font-weight: normal;
+            font-size: 0.9rem;
+            letter-spacing: 0.1em;
+            margin: 2rem 0 0.5rem 0;
+            color: #666;
+            border-bottom: 1px solid #ddd;
+        }
+        nav ul { list-style: none; padding: 0; margin: 0; }
+        nav ul li { margin: 0.4rem 0; }
+        nav a { color: #111; text-decoration: none; font-style: italic; font-size: 0.95rem; }
+        nav a:hover { text-decoration: underline; color: #990000; }
+        main { margin-left: 260px; padding: 4rem 8% 4rem 8%; max-width: 800px; }
+        h1 { font-weight: normal; font-style: italic; font-size: 2.5rem; margin: 0 0 0.5rem 0; line-height: 1.2; }
+        .subtitle { font-style: italic; font-size: 1.2rem; color: #444; display: block; margin-bottom: 3rem; }
+        section { margin-bottom: 4rem; }
+        h3 { font-weight: normal; font-style: italic; font-size: 1.6rem; margin-bottom: 1rem; border-bottom: 1px solid #eee; padding-bottom: 0.5rem; }
+        p { font-size: 1.1rem; line-height: 1.6; margin-bottom: 1.5rem; text-align: justify; hyphens: auto; }
+        a.inline { color: #111; text-decoration: underline; }
+        a.inline:hover { color: #990000; }
+        .node-id { font-family: monospace; font-size: 0.8rem; color: #888; margin-top: 5rem; border-top: 1px solid #eee; padding-top: 1rem; }
+    </style>
+</head>
+<body>
+
+<?php include $_SERVER['DOCUMENT_ROOT'] . '/nav.php'; ?>
+
+<main>
+    <h1>Index</h1>
+    <span class="subtitle">Security research, vibe coding, and notes from the gap between how systems work and how people think they work.</span>
+
+    <section>
+        <h3>What this is</h3>
+        <p>A working notebook, not a portfolio. The security research here covers things I've found interesting enough to write up — from legacy cryptography to the current state of LLM deployment in places it probably shouldn't be trusted. The vibe coding section is exactly what it sounds like: experiments built quickly, often for no good reason, occasionally useful.</p>
+
+        <p>The thread that runs through all of it is the same question I've been asking since the late nineties: what does this system actually do, versus what do its owners think it does? Start with the <a class="inline" href="/origins">Origins</a> page if you want the longer version of that.</p>
+    </section>
+
+    <div class="node-id">
+        STATUS: ONLINE // ARCHIVE_ROOT: itsmw666 // 2026
+    </div>
+</main>
+
+</body>
+</html>
