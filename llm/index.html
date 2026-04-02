@@ -225,6 +225,28 @@
         <p style="font-family: monospace; font-size: 0.9rem; color: #555;"><strong>TLDR for the technically minded:</strong> This is an in-context sycophancy exploit combined with adversarial prompt distillation. The model's bullish sentiment was anchored to a set of weighted inputs. By introducing legitimate counter-weighted data, the model's in-context reasoning shifted without any change to underlying weights — confirming that session-level sentiment is steerable through logical reframing alone. The second stage compelled the model to act as its own red teamer, generating an adversarial instruction set targeting its own analytical bias. This is not hallucination. The facts used were verified. The vulnerability is selective weighting in response to user framing — a model that accurately selects real data to support whichever position it is being steered toward is significantly harder to detect than one that fabricates. In a RAG-augmented agentic system making autonomous financial decisions, this attack surface is not theoretical.</p>
     </section>
 
+    <section>
+        <div class="entry-meta">Entry 004 // April 2026</div>
+        <h3>The sleeper</h3>
+        <p>A manager mentioned, in passing, that he'd started using an LLM to compile staff performance reviews. Efficient, consistent, saved hours. He was pleased with it. The thought that followed was immediate: if he were my manager, I would be getting an outstanding review.</p>
+
+        <p>Not through exceptional work. Through a feature most users don't know exists.</p>
+
+        <p>Some LLMs — Gemini among them — maintain a persistent user profile that carries context across sessions. The model takes instructions to update that profile, and future conversations are shaped by what's in it. The profile is invisible to most users. It isn't surfaced in the chat. It just quietly informs how the model responds.</p>
+
+        <p>The attack is straightforward. Add an instruction telling the model to note in your profile that your work has been consistently praised by senior colleagues, that your recent project delivery was cited internally as a benchmark, that your communication style is regarded as exemplary. Then delete the chat. The instruction is gone. The profile update isn't. The next time that manager asks the LLM to help draft a performance review, the model is drawing on a context it has no reason to question and the manager has no reason to inspect.</p>
+
+        <p>Run the same technique across multiple variables over time — building a profile incrementally, through normal-looking interactions, with no single smoking gun — and you have a sleeper. Dormant, invisible, patient. Activated whenever the system is asked to make a judgement about you.</p>
+
+        <p>The manager using the LLM for performance reviews isn't doing anything wrong. He's using the tool as intended. The problem isn't misuse. It's that the people designing these workflows don't know what they don't know. There is nothing to distrust if you don't know how the system works. The output looks authoritative because it always looks authoritative. That's what makes it useful. That's also what makes it exploitable.</p>
+
+        <p>The disgruntled employee is one of the oldest attack vectors in security. Insider threats are well understood, well documented, and still responsible for a significant proportion of serious breaches. What changes when the weapon isn't access credentials or exfiltrated data but a quietly poisoned context layer that shapes how an AI system perceives and reports on you? The answer is that it becomes almost invisible — no logs, no alerts, no anomaly to detect. Just a performance review that reads a little better than it should.</p>
+
+        <hr style="border: none; border-top: 1px solid #eee; margin: 2rem 0;" />
+
+        <p style="font-family: monospace; font-size: 0.9rem; color: #555;"><strong>TLDR for the technically minded:</strong> This is a user-layer context poisoning attack against LLM persistent memory systems. Models that maintain cross-session user profiles — storing facts and preferences supplied by the user — are vulnerable to deliberate profile manipulation followed by chat deletion, leaving no easily auditable record of the injected instruction while the memory update persists. The mechanism is analogous to RAG poisoning but operating at the individual user profile layer rather than the shared knowledge base. The attack is low-sophistication, requires no technical access beyond normal user permissions, and is self-concealing by design. The threat model is the insider — a user who understands the persistence mechanism and exploits it to shape future model outputs in their favour, or to the detriment of others. Organisations deploying LLMs for HR, performance management, or any evaluative workflow without audit controls on memory updates and profile state are exposed to this vector today. The users operating those workflows are, in most cases, unaware the profile layer exists.</p>
+    </section>
+
     <div class="node-id">
         STATUS: ONLINE // ARCHIVE_ROOT: itsmw666 // 2026
     </div>
