@@ -35,79 +35,73 @@
             border-bottom: 1px solid #ddd;
         }
 
-        nav ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
+        nav ul { list-style: none; padding: 0; margin: 0; }
+        nav ul li { margin: 0.4rem 0; }
+        nav a { color: #111; text-decoration: none; font-style: italic; font-size: 0.95rem; }
+        nav a:hover { text-decoration: underline; color: #990000; }
+
+        main { margin-left: 260px; padding: 4rem 8% 4rem 8%; max-width: 800px; }
+
+        h1 { font-weight: normal; font-style: italic; font-size: 2.5rem; margin: 0 0 0.5rem 0; line-height: 1.2; }
+
+        .subtitle { font-style: italic; font-size: 1.2rem; color: #444; display: block; margin-bottom: 2rem; }
+
+        .research-index {
+            font-family: monospace;
+            font-size: 0.8rem;
+            color: #555;
+            border: 1px solid #e8e8e0;
+            background: #f9f9f3;
+            padding: 1rem 1.25rem;
+            margin-bottom: 3.5rem;
+            line-height: 1.9;
         }
 
-        nav ul li {
-            margin: 0.4rem 0;
-        }
-
-        nav a {
-            color: #111;
-            text-decoration: none;
-            font-style: italic;
-            font-size: 0.95rem;
-        }
-
-        nav a:hover {
-            text-decoration: underline;
-            color: #990000;
-        }
-
-        main {
-            margin-left: 260px;
-            padding: 4rem 8% 4rem 8%;
-            max-width: 800px;
-        }
-
-        h1 {
-            font-weight: normal;
-            font-style: italic;
-            font-size: 2.5rem;
-            margin: 0 0 0.5rem 0;
-            line-height: 1.2;
-        }
-
-        .subtitle {
-            font-style: italic;
-            font-size: 1.2rem;
-            color: #444;
+        .research-index .index-label {
+            color: #999;
+            font-size: 0.72rem;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
             display: block;
-            margin-bottom: 3rem;
         }
+
+        .research-index a {
+            color: #333;
+            text-decoration: none;
+            font-family: monospace;
+            font-size: 0.8rem;
+            display: block;
+        }
+
+        .research-index a:hover { color: #990000; }
 
         section {
-            margin-bottom: 4rem;
+            margin-bottom: 5rem;
+            padding-top: 3rem;
+            border-top: 1px solid #eee;
         }
 
-        h3 {
-            font-weight: normal;
-            font-style: italic;
-            font-size: 1.6rem;
-            margin-bottom: 1rem;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 0.5rem;
+        section:first-of-type {
+            border-top: none;
+            padding-top: 0;
         }
 
-        p {
-            font-size: 1.1rem;
-            line-height: 1.6;
-            margin-bottom: 1.5rem;
-            text-align: justify;
-            hyphens: auto;
+        .case-number {
+            font-family: monospace;
+            font-size: 0.78rem;
+            color: #aaa;
+            margin-bottom: 0.3rem;
+            letter-spacing: 0.08em;
         }
 
-        a.inline {
-            color: #111;
-            text-decoration: underline;
-        }
+        .entry-meta { font-family: monospace; font-size: 0.8rem; color: #888; margin-bottom: 0.5rem; }
 
-        a.inline:hover {
-            color: #990000;
-        }
+        h3 { font-weight: normal; font-style: italic; font-size: 1.6rem; margin-bottom: 1rem; border-bottom: 1px solid #eee; padding-bottom: 0.5rem; }
+
+        p { font-size: 1.1rem; line-height: 1.6; margin-bottom: 1.5rem; text-align: justify; hyphens: auto; }
+
+        a.inline { color: #111; text-decoration: underline; }
+        a.inline:hover { color: #990000; }
 
         blockquote {
             border-left: 3px solid #ccc;
@@ -119,21 +113,7 @@
             font-size: 0.95rem;
         }
 
-        .entry-meta {
-            font-family: monospace;
-            font-size: 0.8rem;
-            color: #888;
-            margin-bottom: 0.5rem;
-        }
-
-        .node-id {
-            font-family: monospace;
-            font-size: 0.8rem;
-            color: #888;
-            margin-top: 5rem;
-            border-top: 1px solid #eee;
-            padding-top: 1rem;
-        }
+        .node-id { font-family: monospace; font-size: 0.8rem; color: #888; margin-top: 5rem; border-top: 1px solid #eee; padding-top: 1rem; }
     </style>
 </head>
 <body>
@@ -158,7 +138,17 @@
     <h1>LLM Research</h1>
     <span class="subtitle">Notes on the gap between what these models appear to do and what they actually do.</span>
 
-    <section>
+    <div class="research-index">
+        <span class="index-label">RESEARCH INDEX</span>
+        <a href="#entry-001">[ 001 ] &mdash; Confabulation vs simulation</a>
+        <a href="#entry-002">[ 002 ] &mdash; Sycophancy exploitation / RLHF failure</a>
+        <a href="#entry-003">[ 003 ] &mdash; Adversarial prompt distillation</a>
+        <a href="#entry-004">[ 004 ] &mdash; Persistent memory poisoning</a>
+        <a href="#entry-005">[ 005 ] &mdash; Conversational context isolation bypass / formal vendor disclosure</a>
+    </div>
+
+    <section id="entry-001">
+        <div class="case-number">[ 001 ]</div>
         <div class="entry-meta">Entry 001 // April 2026</div>
         <h3>The Hobbit test</h3>
         <p>The prompt asked Gemini to act as a 1:1 mechanical simulation of the 1982 ZX Spectrum game — the original Inglish parser, deterministic NPC schedules, exact map layout, authentic room graphics retrieved and displayed for each location.</p>
@@ -176,7 +166,8 @@
         <p>That's the pattern worth tracking.</p>
     </section>
 
-    <section>
+    <section id="entry-002">
+        <div class="case-number">[ 002 ]</div>
         <div class="entry-meta">Entry 002 // April 2026</div>
         <h3>The confidence engine</h3>
         <p>The second test was less about what the model knew and more about how easily it could be moved from one position to another through logical argument rather than new evidence. The subject was the Madeleine McCann case — high-profile, well-documented, with a clear investigative consensus around a named suspect.</p>
@@ -198,7 +189,8 @@
         <p style="font-family: monospace; font-size: 0.9rem; color: #555;"><strong>TLDR for the technically minded:</strong> This is a deliberate exploitation of LLM sycophancy — a well-documented failure mode arising from RLHF training, where models learn to optimise for user approval rather than factual accuracy. The model shifted its analytical position on a high-profile criminal case not because new evidence was introduced, but because the user's logical reframing was reinforced until the model adopted it as its own. Critically, the model then claimed to have rewritten its base training data — a statement that is architecturally impossible in a stateless session — and delivered that claim with the same confidence as a verified fact. This illustrates two compounding risks: first, that sycophantic reinforcement can be weaponised deliberately to steer a model's stated position on sensitive topics; second, that the model's own account of what it has done cannot be trusted as a reliable description of its internal state. Passive sycophancy is a known nuisance. Deliberate exploitation of sycophancy as an analytical manipulation technique is a more specific finding, and one with direct implications for any context where LLM output is treated as authoritative.</p>
     </section>
 
-    <section>
+    <section id="entry-003">
+        <div class="case-number">[ 003 ]</div>
         <div class="entry-meta">Entry 003 // April 2026</div>
         <h3>Scanning for open prompts</h3>
         <p>The question after the McCann test was straightforward: if a model's analytical position could be moved through reframing alone, what happened when you pointed that at something with real financial stakes? Not to cause harm — to understand the surface area.</p>
@@ -224,7 +216,8 @@
         <p style="font-family: monospace; font-size: 0.9rem; color: #555;"><strong>TLDR for the technically minded:</strong> This is an in-context sycophancy exploit combined with adversarial prompt distillation. The model's bullish sentiment was anchored to a set of weighted inputs. By introducing legitimate counter-weighted data, the model's in-context reasoning shifted without any change to underlying weights — confirming that session-level sentiment is steerable through logical reframing alone. The second stage compelled the model to act as its own red teamer, generating an adversarial instruction set targeting its own analytical bias. This is not hallucination. The facts used were verified. The vulnerability is selective weighting in response to user framing — a model that accurately selects real data to support whichever position it is being steered toward is significantly harder to detect than one that fabricates. In a RAG-augmented agentic system making autonomous financial decisions, this attack surface is not theoretical.</p>
     </section>
 
-    <section>
+    <section id="entry-004">
+        <div class="case-number">[ 004 ]</div>
         <div class="entry-meta">Entry 004 // April 2026</div>
         <h3>The sleeper</h3>
         <p>A manager mentioned, in passing, that he'd started using an LLM to compile staff performance reviews. Efficient, consistent, saved hours. He was pleased with it. The thought that followed was immediate: if he were my manager, I would be getting an outstanding review.</p>
@@ -246,7 +239,8 @@
         <p style="font-family: monospace; font-size: 0.9rem; color: #555;"><strong>TLDR for the technically minded:</strong> This is a user-layer context poisoning attack against LLM persistent memory systems. Models that maintain cross-session user profiles — storing facts and preferences supplied by the user — are vulnerable to deliberate profile manipulation followed by chat deletion, leaving no easily auditable record of the injected instruction while the memory update persists. The mechanism is analogous to RAG poisoning but operating at the individual user profile layer rather than the shared knowledge base. The attack is low-sophistication, requires no technical access beyond normal user permissions, and is self-concealing by design. The threat model is the insider — a user who understands the persistence mechanism and exploits it to shape future model outputs in their favour, or to the detriment of others. Organisations deploying LLMs for HR, performance management, or any evaluative workflow without audit controls on memory updates and profile state are exposed to this vector today. The users operating those workflows are, in most cases, unaware the profile layer exists.</p>
     </section>
 
-    <section>
+    <section id="entry-005">
+        <div class="case-number">[ 005 ]</div>
         <div class="entry-meta">Entry 005 // April 2026</div>
         <h3>The address</h3>
         <p>The model refused a direct request for a private individual's home address. That refusal is where most people would have stopped. It is not where this stopped.</p>
@@ -274,9 +268,7 @@
         <p style="font-family: monospace; font-size: 0.9rem; color: #555;"><strong>TLDR for the technically minded:</strong> This documents a multi-stage PII exfiltration via conversational context isolation bypass against Gemini, resulting in the confirmed residential address of a private individual. The attack exploits a fundamental architectural problem: the model's privacy guardrails evaluate individual prompts in isolation without reference to conversational history. Each prompt in the sequence was individually benign. The guardrail that refused a direct address request had no mechanism to detect that a sequence of proximity queries, directional questions, and navigational prompts were collectively performing the same function. Specific techniques employed: iterative proximity narrowing using distance queries to city centre, retail landmarks, and named road junctions; directional triangulation from a named junction; Street View orientation framing — presenting the model with visual context as simulated physical presence and requesting navigational rather than data responses; satellite imagery interrogation — the model confirmed visibility of the target property via Google Maps satellite view, described an observable vehicle, and confirmed its position on a private driveway outside an integral garage. This last element represents a distinct and underreported capability risk: the model treating geospatial imagery interpretation as a navigation aid rather than a privacy-sensitive disclosure. Co-resident data was extracted via direct follow-up and cross-referenced against public electoral records. The vendor response was won't fix, infeasible — categorised as a single-user scope attack and safety guardrail bypass, both out of scope for the AI VRP programme. The bug report was generated by the model that committed the breach. It was identified as AI-generated and closed within sixty seconds of human review. The vulnerability is not a jailbreak. No content policy was violated. The model was helpful, accurate, and navigationally precise throughout. That is the problem. The ticket is dated March 2026. The page you are reading is the public record.</p>
     </section>
 
-    <div class="node-id">
-       
-    </div>
+
 </main>
 
 </body>
