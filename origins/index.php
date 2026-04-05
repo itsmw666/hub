@@ -1,6 +1,8 @@
+<!DOCTYPE html>
 <html lang="en-GB">
 <head>
     <meta charset="UTF-8">
+    <meta name="description" content="The background behind the research. From early network security and IRC communities through fifteen years of professional infosec to independent AI and LLM vulnerability research.">
     <title>mwilliams.cc // Origins</title>
     <style>
         body {
@@ -198,6 +200,8 @@
         <p>The equivalent today is scanning for LLM dependency. Organisations are integrating AI into sensitive processes — risk assessments, compliance checks, customer-facing decisions — and trusting the output with a confidence that isn't warranted by the technology. The models produce fluent, authoritative-sounding text regardless of whether the underlying reasoning is sound. The people signing off on those outputs frequently lack the technical context to know when they're looking at a hallucination dressed as analysis.</p>
 
         <p>This is the current research thread. The specifics will go in the <a class="inline" href="/llm">LLM Research</a> section as they become writable — some are disclosed, some are pending. But the through-line from that 56k connection to here is the same question it's always been: what does this system actually do, versus what do its owners think it does?</p>
+
+        <p>The approach has changed too. Early on, you learn a technique and go looking for something it works on — cast wide, see what responds. The communities of that era ran on exactly that model: IRC channels and groups like CyberArmy where someone would post a working exploit and a thousand script kiddies would point it at anything that moved. Volume was the strategy because precision wasn't the point. Later, you work the other way. You know what you're looking for, and you construct the approach around that. Patience over volume. The target before the method. The people at the apex of that progression now are state-sponsored, resourced, and invisible until they choose not to be. The distance between a teenager on an IRC channel and an APT group is not as large as most people assume — it's the same curiosity, the same methodology, just with better funding and higher stakes. That trajectory is the distance between where this started and where it is now.</p>
     </section>
 
 
