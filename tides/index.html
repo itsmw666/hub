@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Menai Strait — Passage Planner | Dinas Boat Yard</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@300;400;600;700&display=swap');
+:root{
+  --navy:#06101c;--panel:#0e1f30;--border:#1a3050;
+  --teal:#00c9b0;--teal2:#00e8cc;--amber:#f0a500;--red:#e03a3a;
+  --green:#2ec96e;--text:#b8d4ee;--dim:#3a6080;
+  --mono:'Share Tech Mono',monospace;--head:'Barlow Condensed',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--navy);color:var(--text);font-family:var(--head);min-height:100vh;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,201,176,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,201,176,.025) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;z-index:0;}
+.wrap{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:1.25rem 1.5rem;}
+
+header{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:1px solid var(--border);padding-bottom:1rem;margin-bottom:1.25rem;}
+.yard{font-size:.65rem;letter-spacing:.25em;color:var(--dim);font-family:var(--mono);margin-bottom:.25rem;}
+h1{font-size:2rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;line-height:1;color:#fff;}
+h1 span{color:var(--teal);}
+.hdr-right{text-align:right;font-family:var(--mono);}
+.clock-time{font-size:2.2rem;color:var(--teal);letter-spacing:.08em;line-height:1;}
+.clock-sub{font-size:.62rem;color:var(--dim);letter-spacing:.18em;}
+
+.status-bar{display:flex;flex-wrap:wrap;background:var(--panel);border:1px solid var(--border);margin-bottom:1.25rem;}
+.sb{flex:1;min-width:150px;padding:.65rem 1rem;border-right:1px solid var(--border);}
+.sb:last-child{border-right:none;}
+.sb-l{font-size:.58rem;letter-spacing:.2em;color:var(--dim);text-transform:uppercase;font-family:var(--mono);margin-bottom:.2rem;}
+.sb-v{font-family:var(--mono);font-size:.82rem;color:#fff;font-weight:bold;}
+.good{color:var(--green);}.caution{color:var(--amber);}.danger{color:var(--red);}
+.pulse{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--green);margin-right:5px;animation:pulse 2s infinite;vertical-align:middle;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.2}}
+
+.sec{font-size:.6rem;letter-spacing:.28em;color:var(--teal);text-transform:uppercase;font-family:var(--mono);display:flex;align-items:center;gap:.75rem;margin:1.25rem 0 .75rem;}
+.sec::after{content:'';flex:1;height:1px;background:var(--border);}
+
+.panel{background:var(--panel);border:1px solid var(--border);position:relative;overflow:hidden;}
+.panel::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--teal),transparent);}
+.panel.amb::before{background:linear-gradient(90deg,var(--amber),transparent);}
+.panel.grn::before{background:linear-gradient(90deg,var(--green),transparent);}
+
+.tide-wrap{display:grid;grid-template-columns:1fr 1fr;}
+.tide-stn{padding:1rem 1.25rem .75rem;}
+.stn-t{font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;color:var(--teal);font-family:var(--mono);margin-bottom:.1rem;}
+.stn-s{font-size:.58rem;color:var(--dim);font-family:var(--mono);margin-bottom:.85rem;}
+.t-days{display:grid;grid-template-columns:repeat(5,1fr);gap:.4rem;}
+.t-head{font-family:var(--mono);font-size:.56rem;color:var(--dim);letter-spacing:.1em;text-align:center;padding-bottom:.3rem;border-bottom:1px solid var(--border);margin-bottom:.3rem;}
+.t-head.today{color:var(--teal);border-color:var(--teal);}
+.t-e{text-align:center;padding:.18rem 0;}
+.t-tp{font-size:.48rem;letter-spacing:.15em;color:var(--dim);text-transform:uppercase;font-family:var(--mono);}
+.t-tm{font-family:var(--mono);font-size:.8rem;color:#fff;line-height:1.1;}
+.t-ht{font-family:var(--mono);font-size:.6rem;}
+.hw .t-tm{color:var(--teal);}.hw .t-ht{color:var(--teal2);}
+.lw .t-tm{color:var(--dim);}.lw .t-ht{color:#2a5070;}
+
+.cv-wrap{padding:.75rem 1.25rem 1rem;border-top:1px solid var(--border);}
+.cv-leg{display:flex;gap:1.5rem;margin-bottom:.5rem;}
+.cv-item{display:flex;align-items:center;gap:.4rem;font-family:var(--mono);font-size:.58rem;color:var(--dim);}
+.cv-dot{width:20px;height:2px;}
+
+.w-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:.3rem;padding:1rem 1.25rem;}
+.w-sl{display:flex;flex-direction:column;align-items:center;gap:.15rem;padding:.4rem .15rem;border:1px solid var(--border);background:rgba(0,0,0,.25);}
+.w-sl.now{border-color:var(--amber);background:rgba(240,165,0,.07);}
+.w-t{font-family:var(--mono);font-size:.5rem;color:var(--dim);}
+.w-t.now{color:var(--amber);}
+.w-s{font-family:var(--mono);font-size:.78rem;color:#fff;font-weight:bold;}
+.w-g,.w-d,.w-b{font-family:var(--mono);font-size:.5rem;color:var(--dim);}
+.w-g{color:var(--amber);}
+
+.windy-wrap{width:100%;height:400px;}
+.windy-wrap iframe{width:100%;height:100%;border:none;display:block;}
+
+.pw-list{padding:.75rem 1.25rem;display:flex;flex-direction:column;gap:.45rem;}
+.pw-item{display:grid;grid-template-columns:70px 50px 1fr;align-items:start;gap:.75rem;padding:.5rem .75rem;border:1px solid var(--border);background:rgba(0,0,0,.2);}
+.pw-dt{font-family:var(--mono);font-size:.68rem;color:var(--dim);padding-top:.1rem;}
+.badge{display:inline-block;padding:.1rem .4rem;font-size:.52rem;letter-spacing:.12em;text-transform:uppercase;font-family:var(--mono);}
+.badge.good{background:rgba(46,201,110,.12);color:var(--green);border:1px solid rgba(46,201,110,.4);}
+.badge.caution{background:rgba(240,165,0,.12);color:var(--amber);border:1px solid rgba(240,165,0,.4);}
+.badge.slip{background:rgba(0,201,176,.1);color:var(--teal);border:1px solid rgba(0,201,176,.3);}
+.pw-d{font-size:.8rem;color:var(--text);}
+.pw-d strong{color:#fff;}
+.pw-n{font-family:var(--mono);font-size:.58rem;color:var(--dim);margin-top:.15rem;}
+
+.err{font-family:var(--mono);font-size:.72rem;color:var(--amber);padding:1rem 1.25rem;}
+.loading{font-family:var(--mono);font-size:.72rem;color:var(--dim);padding:1rem 1.25rem;}
+
+.disclaimer{font-family:var(--mono);font-size:.6rem;color:var(--dim);border-top:1px solid var(--border);padding-top:1rem;margin-top:1rem;line-height:1.7;}
+.disclaimer strong{color:var(--amber);}
+
+@media(max-width:800px){
+  .tide-wrap{grid-template-columns:1fr;}
+  .tide-stn+.tide-stn{border-left:none;border-top:1px solid var(--border);}
+  .t-days{grid-template-columns:repeat(3,1fr);}
+  .w-grid{grid-template-columns:repeat(6,1fr);}
+  h1{font-size:1.4rem;}.clock-time{font-size:1.5rem;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div>
+    <div class="yard">Dinas Boat Yard · Beach Road · Y Felinheli · Gwynedd · LL56 4RX</div>
+    <h1>Menai <span>Strait</span> Passage Planner</h1>
+  </div>
+  <div class="hdr-right">
+    <div class="clock-time" id="clk">--:--</div>
+    <div class="clock-sub" id="clks">Loading…</div>
+  </div>
+</header>
+
+<div class="status-bar">
+  <div class="sb"><div class="sb-l"><span class="pulse"></span>Slipway</div><div class="sb-v" id="s-slip">—</div></div>
+  <div class="sb"><div class="sb-l">Caernarfon · Next HW</div><div class="sb-v" id="s-chw">—</div></div>
+  <div class="sb"><div class="sb-l">Menai Bridge · Next HW</div><div class="sb-v" id="s-mhw">—</div></div>
+  <div class="sb"><div class="sb-l">Swellies Transit</div><div class="sb-v" id="s-sw">—</div></div>
+  <div class="sb"><div class="sb-l">Wind · Y Felinheli</div><div class="sb-v" id="s-wind">Loading…</div></div>
+</div>
+
+<div class="sec">Tidal Predictions · Bangor University CAMS · Times shown in BST</div>
+<div class="tide-wrap panel" id="tide-panel">
+  <div class="tide-stn"><div class="stn-t">▸ SW End — Caernarfon</div><div class="stn-s">Chart Datum · ODN +2.72m · Caernarfon Bar &amp; slipway reference</div><div class="t-days loading" id="caer-tbl">Loading tide data…</div></div>
+  <div class="tide-stn" style="border-left:1px solid var(--border)"><div class="stn-t" style="color:var(--amber)">▸ NE End — Menai Bridge</div><div class="stn-s">Chart Datum · ODN +3.78m · Swellies &amp; Beaumaris reference</div><div class="t-days loading" id="menai-tbl">Loading tide data…</div></div>
+</div>
+
+<div class="panel" style="margin-top:1.25rem">
+  <div class="cv-wrap">
+    <div class="cv-leg">
+      <div class="cv-item"><div class="cv-dot" style="background:var(--teal)"></div>Caernarfon SW</div>
+      <div class="cv-item"><div class="cv-dot" style="background:var(--amber)"></div>Menai Bridge NE</div>
+      <div class="cv-item" style="font-size:.55rem">Green bands = slipway open · Amber line = now · Phase difference shows opposing tidal streams</div>
+    </div>
+    <svg id="tsvg" width="100%" height="120" viewBox="0 0 1100 120" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="gC" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#00c9b0" stop-opacity=".35"/><stop offset="100%" stop-color="#00c9b0" stop-opacity="0"/></linearGradient>
+        <linearGradient id="gM" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f0a500" stop-opacity=".25"/><stop offset="100%" stop-color="#f0a500" stop-opacity="0"/></linearGradient>
+      </defs>
+      <g id="svg-g"></g>
+      <rect id="sb1" y="0" height="120" fill="rgba(46,201,110,.07)"/>
+      <rect id="sb2" y="0" height="120" fill="rgba(46,201,110,.07)"/>
+      <path id="pc" fill="url(#gC)" stroke="#00c9b0" stroke-width="1.5"/>
+      <path id="pm" fill="url(#gM)" stroke="#f0a500" stroke-width="1.5" opacity=".75"/>
+      <line id="nln" x1="0" y1="0" x2="0" y2="120" stroke="#f0a500" stroke-width="1.5" stroke-dasharray="5,3"/>
+    </svg>
+  </div>
+</div>
+
+<div class="sec">Wind Forecast · Open-Meteo ECMWF · Y Felinheli 53.19°N 4.21°W</div>
+<div class="panel amb"><div class="w-grid" id="wgrid"><div class="loading">Loading wind data…</div></div></div>
+
+<div class="sec">Live Wind Map · Windy.com · Menai Strait</div>
+<div class="panel" style="overflow:hidden">
+  <div class="windy-wrap">
+    <iframe src="https://embed.windy.com/embed2.html?lat=53.19&lon=-4.21&detailLat=53.19&detailLon=-4.21&width=1200&height=400&zoom=10&level=surface&overlay=wind&product=ecmwf&menu=&message=true&marker=true&calendar=now&pressure=&type=map&location=coordinates&detail=true&metricWind=kt&metricTemp=%C2%B0C&radarRange=-1" allowfullscreen></iframe>
+  </div>
+</div>
+
+<div class="sec">Passage Windows · Next 5 Days · Based on CAMS Predictions</div>
+<div class="panel grn"><div class="pw-list" id="pwlist"><div class="loading">Loading…</div></div></div>
+
+<p class="disclaimer">
+  <strong>FOR REFERENCE ONLY.</strong> Tidal data: Bangor University CAMS (cams.bangor.ac.uk) — authoritative Menai Strait specific predictions. Wind: Open-Meteo ECMWF free forecast.
+  This tool does not constitute navigational advice. Always verify against current official UKHO tide tables and Met Office forecasts. Exercise sound seamanship at all times.
+  <strong>Swellies:</strong> target Liverpool HW −2h30m (NE/eastbound) or HW +1h (SW/westbound). Streams reach 8kn springs.
+  <strong>Caernarfon Bar:</strong> follow leading marks; consult Caernarfon Harbour Authority (01286 672118) before transit.
+  Tidal times shown in BST. Tide data updated annually each January from Bangor University CAMS. Dinas Boat Yard accepts no liability.
+</p>
+</div>
+
+<script>
+// ── Utility ──
+const DAYS=['SUN','MON','TUE','WED','THU','FRI','SAT'];
+const MONS=['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+const CDIR=['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
+const p=n=>String(n).padStart(2,'0');
+const toM=t=>t?parseInt(t.slice(0,2))*60+parseInt(t.slice(2)):null;
+const fmtM=m=>{if(m===null)return'--:--';m=((m%1440)+1440)%1440;return p(Math.floor(m/60))+':'+p(m%60);};
+const dkey=d=>d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());
+const isBST=d=>{const j=new Date(d.getFullYear(),0,1),jl=new Date(d.getFullYear(),6,1);return d.getTimezoneOffset()<Math.max(j.getTimezoneOffset(),jl.getTimezoneOffset());};
+const bstO=()=>isBST(new Date())?60:0;
+const g2l=t=>{const m=toM(t);return m===null?'--:--':fmtM(m+bstO());};
+const degCard=d=>CDIR[Math.round(d/22.5)%16];
+const bft=s=>s<1?0:s<4?1:s<7?2:s<11?3:s<17?4:s<22?5:s<28?6:7;
+
+// ── Clock ──
+function tick(){
+  const n=new Date();
+  document.getElementById('clk').textContent=p(n.getHours())+':'+p(n.getMinutes());
+  const bst=isBST(n);
+  document.getElementById('clks').textContent=(bst?'BST':'GMT')+' · '+DAYS[n.getDay()]+' '+p(n.getDate())+' '+MONS[n.getMonth()]+' '+n.getFullYear();
+}
+tick();setInterval(tick,1000);
+
+// ── State ──
+let TIDE = null;
+
+// ── Load tide data from external JSON ──
+async function loadTideData(){
+  try{
+    const r = await fetch('tide-data.json');
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    TIDE = await r.json();
+    renderTables();
+    drawCurves();
+    updateStatus();
+    buildPassageWindows();
+    setInterval(drawCurves, 60000);
+    setInterval(updateStatus, 30000);
+  }catch(e){
+    document.getElementById('caer-tbl').innerHTML='<div class="err">Could not load tide data — '+e.message+'</div>';
+    document.getElementById('menai-tbl').innerHTML='';
+    console.error('Tide data load failed:',e);
+  }
+}
+
+// ── Render tide tables ──
+function renderTables(){
+  renderTbl(TIDE.caernarfon, 'caer-tbl');
+  renderTbl(TIDE.menai_bridge, 'menai-tbl');
+}
+
+function renderTbl(data, id){
+  const el=document.getElementById(id);
+  el.className='t-days';
+  el.innerHTML='';
+  const today=new Date();
+  let keys=Object.keys(data).filter(k=>k>=dkey(today)).sort().slice(0,5);
+  if(!keys.length) keys=Object.keys(data).sort().slice(0,5);
+  keys.forEach((k,i)=>{
+    const d=new Date(k+'T12:00:00');
+    const entries=[];
+    (data[k].hw||[]).forEach(e=>entries.push({...e,tp:'HW'}));
+    (data[k].lw||[]).forEach(e=>entries.push({...e,tp:'LW'}));
+    entries.sort((a,b)=>toM(a.t)-toM(b.t));
+    const col=document.createElement('div');
+    col.innerHTML=`<div class="t-head${i===0?' today':''}">${DAYS[d.getDay()]}<br><span style="font-size:.5rem;opacity:.6">${p(d.getDate())} ${MONS[d.getMonth()]}</span></div>`
+      +entries.map(e=>`<div class="t-e ${e.tp.toLowerCase()}"><div class="t-tp">${e.tp}</div><div class="t-tm">${g2l(e.t)}</div><div class="t-ht">${e.h}m</div></div>`).join('');
+    el.appendChild(col);
+  });
+}
+
+// ── Tide curves ──
+function interpH(entries,tmin){
+  const s=[...entries].sort((a,b)=>toM(a.t)-toM(b.t));
+  let prev=null,next=null;
+  for(const e of s){const m=toM(e.t);if(m<=tmin)prev=e;else if(!next)next=e;}
+  if(prev&&next){const f=(tmin-toM(prev.t))/(toM(next.t)-toM(prev.t));return prev.h+(next.h-prev.h)*(0.5-0.5*Math.cos(f*Math.PI));}
+  return prev?prev.h:next?next.h:2.5;
+}
+
+function drawCurves(){
+  if(!TIDE)return;
+  const W=1100,H=120,minH=0,maxH=8.5;
+  const today=new Date();const tk=dkey(today);
+  const cd=TIDE.caernarfon[tk]||TIDE.caernarfon[Object.keys(TIDE.caernarfon).sort()[0]];
+  const md=TIDE.menai_bridge[tk]||TIDE.menai_bridge[Object.keys(TIDE.menai_bridge).sort()[0]];
+  const allC=[...(cd.hw||[]),...(cd.lw||[])];
+  const allM=[...(md.hw||[]),...(md.lw||[])];
+  const yp=h=>H-((h-minH)/(maxH-minH))*(H-12)-6;
+  const curve=entries=>{const pts=[];for(let x=0;x<=W;x++){pts.push(`${x},${yp(interpH(entries,(x/W)*1440))}`);}return pts;};
+  document.getElementById('pc').setAttribute('d',`M ${curve(allC).join(' L ')} L ${W},${H} L 0,${H} Z`);
+  document.getElementById('pm').setAttribute('d',`M ${curve(allM).join(' L ')} L ${W},${H} L 0,${H} Z`);
+  // grid
+  const g=document.getElementById('svg-g');g.innerHTML='';
+  for(let h=0;h<=24;h+=3){
+    const x=(h/24)*W;
+    const ln=document.createElementNS('http://www.w3.org/2000/svg','line');
+    ln.setAttribute('x1',x);ln.setAttribute('y1',0);ln.setAttribute('x2',x);ln.setAttribute('y2',H);ln.setAttribute('stroke','#1a3050');g.appendChild(ln);
+    const tx=document.createElementNS('http://www.w3.org/2000/svg','text');
+    tx.setAttribute('x',x+3);tx.setAttribute('y',H-3);tx.setAttribute('fill','#3a6080');tx.setAttribute('font-size','9');tx.setAttribute('font-family','Share Tech Mono');
+    tx.textContent=p(h)+':00';g.appendChild(tx);
+  }
+  // now line
+  const n=new Date();const nowGMT=n.getHours()*60+n.getMinutes()-bstO();
+  const nx=(nowGMT/1440)*W;
+  document.getElementById('nln').setAttribute('x1',nx);document.getElementById('nln').setAttribute('x2',nx);
+  // slipway bands
+  const bands=[document.getElementById('sb1'),document.getElementById('sb2')];
+  let bi=0;
+  (cd.hw||[]).forEach(hw=>{if(bi>=2)return;const m=toM(hw.t);const s=Math.max(0,m-180);const e2=Math.min(1440,m+180);bands[bi].setAttribute('x',(s/1440)*W);bands[bi].setAttribute('width',((e2-s)/1440)*W);bi++;});
+}
+
+// ── Status bar ──
+function updateStatus(){
+  if(!TIDE)return;
+  const n=new Date();const nowGMT=n.getHours()*60+n.getMinutes()-bstO();
+  const bO=bstO();const tk=dkey(n);
+  const cd=TIDE.caernarfon[tk];const md=TIDE.menai_bridge[tk];
+  if(cd){
+    const hws=(cd.hw||[]).map(e=>({m:toM(e.t),h:e.h})).filter(e=>e.m>nowGMT);
+    if(hws.length){
+      const hw=hws[0];const diff=hw.m-nowGMT;
+      document.getElementById('s-chw').textContent=`${fmtM(hw.m+bO)} (${hw.h}m) in ${Math.floor(diff/60)}h${p(diff%60)}m`;
+      const so=hw.m-180,sc=hw.m+180;
+      const el=document.getElementById('s-slip');
+      if(nowGMT>=so&&nowGMT<=sc){el.className='sb-v good';el.textContent=`OPEN · closes ${fmtM(sc+bO)}`;}
+      else{el.className='sb-v caution';el.textContent=`CLOSED · opens ~${fmtM(so+bO)}`;}
+    }
+  }
+  if(md){
+    const hws=(md.hw||[]).map(e=>({m:toM(e.t),h:e.h})).filter(e=>e.m>nowGMT);
+    if(hws.length){
+      const hw=hws[0];const diff=hw.m-nowGMT;
+      document.getElementById('s-mhw').textContent=`${fmtM(hw.m+bO)} (${hw.h}m) in ${Math.floor(diff/60)}h${p(diff%60)}m`;
+      const livHW=hw.m+25;const neS=livHW-150,neE=livHW+60,swS=livHW+60,swE=livHW+330;
+      const el=document.getElementById('s-sw');
+      if(nowGMT>=neS&&nowGMT<=neE){el.className='sb-v good';el.textContent=`NE WINDOW OPEN · closes ${fmtM(neE+bO)}`;}
+      else if(nowGMT>=swS&&nowGMT<=swE){el.className='sb-v good';el.textContent=`SW WINDOW OPEN · closes ${fmtM(swE+bO)}`;}
+      else{const next=neS>nowGMT?neS-nowGMT:neS+720-nowGMT;el.className='sb-v caution';el.textContent=`OUTSIDE WINDOW · next NE in ${Math.floor(next/60)}h${p(next%60)}m`;}
+    }
+  }
+}
+
+// ── Passage windows ──
+function buildPassageWindows(){
+  if(!TIDE)return;
+  const el=document.getElementById('pwlist');el.innerHTML='';
+  const bO=bstO();const today=new Date();
+  const keys=Object.keys(TIDE.menai_bridge).filter(k=>k>=dkey(today)).sort().slice(0,5);
+  keys.forEach((k,i)=>{
+    const d=new Date(k+'T12:00:00');
+    const md=TIDE.menai_bridge[k];const cd=TIDE.caernarfon[k];
+    const dayL=i===0?'TODAY':DAYS[d.getDay()]+' '+p(d.getDate());
+    (md.hw||[]).forEach(hw=>{
+      const hwm=toM(hw.t);const livHW=hwm+25;
+      const neS=livHW-150,neE=livHW+60,swS=livHW+60,swE=livHW+330;
+      const isSpring=hw.h>6.8,isNeap=hw.h<5.8;
+      const cond=isSpring?'caution':'good';const lbl=isSpring?'CAUTION':'GOOD';
+      const note=isSpring?`Spring tides ${hw.h}m · Stream up to 8kn · Experienced skippers only`
+                :isNeap?`Neap tides ${hw.h}m · Manageable stream`:`Moderate tides ${hw.h}m · Normal caution`;
+      const div=document.createElement('div');div.className='pw-item';
+      div.innerHTML=`<div class="pw-dt">${dayL}</div><span class="badge ${cond}">${lbl}</span><div>
+        <div class="pw-d"><strong>NE (Swellies):</strong> ${fmtM(neS+bO)}–${fmtM(neE+bO)} · <strong>SW:</strong> ${fmtM(swS+bO)}–${fmtM(swE+bO)} · MB HW ${fmtM(hwm+bO)}</div>
+        <div class="pw-n">${note}</div></div>`;
+      el.appendChild(div);
+    });
+    if(cd)(cd.hw||[]).forEach(hw=>{
+      const hwm=toM(hw.t);
+      const div=document.createElement('div');div.className='pw-item';div.style.opacity='.65';
+      div.innerHTML=`<div class="pw-dt">${dayL}</div><span class="badge slip">SLIP</span><div>
+        <div class="pw-d"><strong>Slipway:</strong> ${fmtM((hwm-180)+bO)}–${fmtM((hwm+180)+bO)} · Caernarfon HW ${fmtM(hwm+bO)} ${hw.h}m</div>
+        <div class="pw-n">Accessible approx HW ±3h · Caernarfon tidal prediction</div></div>`;
+      el.appendChild(div);
+    });
+  });
+}
+
+// ── Wind ──
+async function fetchWind(){
+  try{
+    const r=await fetch('https://api.open-meteo.com/v1/forecast?latitude=53.185&longitude=-4.209&hourly=wind_speed_10m,wind_direction_10m,wind_gusts_10m&wind_speed_unit=kn&timezone=Europe%2FLondon&forecast_days=5');
+    const data=await r.json();
+    const{time:T,wind_speed_10m:S,wind_direction_10m:D,wind_gusts_10m:G}=data.hourly;
+    const now=new Date();const nowISO=now.toISOString().slice(0,13);
+    const slots=[];let found=false;
+    for(let i=0;i<T.length;i++){
+      const isNow=T[i].slice(0,13)===nowISO&&!found;
+      if(isNow){found=true;slots.push({t:T[i],s:Math.round(S[i]),d:Math.round(D[i]),g:Math.round(G[i]),now:true});}
+      else if(found&&slots.length<12&&new Date(T[i]).getHours()%3===0)
+        slots.push({t:T[i],s:Math.round(S[i]),d:Math.round(D[i]),g:Math.round(G[i]),now:false});
+    }
+    const arr=deg=>{const c=deg>25?'#e03a3a':deg>18?'#f0a500':deg>10?'#b8d4ee':'#00c9b0';
+      return`<svg width="22" height="22" viewBox="-11 -11 22 22"><g transform="rotate(${deg})"><line x1="0" y1="7" x2="0" y2="-5" stroke="${c}" stroke-width="2.5" stroke-linecap="round"/><polygon points="0,-9 -3.5,-3 3.5,-3" fill="${c}"/></g></svg>`;};
+    const wg=document.getElementById('wgrid');wg.innerHTML='';
+    slots.forEach(sl=>{
+      const dt=new Date(sl.t);
+      const lbl=sl.now?'NOW':(dt.getHours()===0?DAYS[dt.getDay()]+' 00':p(dt.getHours())+':00');
+      const div=document.createElement('div');div.className='w-sl'+(sl.now?' now':'');
+      div.innerHTML=`<div class="w-t${sl.now?' now':''}">${lbl}</div>${arr(sl.d)}<div class="w-s">${sl.s}kn</div><div class="w-g">G${sl.g}</div><div class="w-d">${degCard(sl.d)}</div><div class="w-b">F${bft(sl.s)}</div>`;
+      wg.appendChild(div);
+    });
+    if(slots.length){const sl=slots[0];document.getElementById('s-wind').textContent=`${degCard(sl.d)} ${sl.s}kn · G${sl.g}kn · F${bft(sl.s)}`;}
+  }catch(e){document.getElementById('wgrid').innerHTML='<div class="err">Wind data unavailable</div>';console.error(e);}
+}
+
+// ── Init ──
+loadTideData();
+fetchWind();
+setInterval(fetchWind,1800000);
+</script>
+</body>
+</html>
