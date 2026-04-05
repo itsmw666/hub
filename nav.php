@@ -11,6 +11,7 @@
     <ul>
         <li><a href="/courtroom">The Jury Room</a></li>
         <li><a href="/sneak">SNEAK</a></li>
+        <li><a href="/tides">Menai Tides</a></li>
     </ul>
 
     <h2>Contact</h2>
