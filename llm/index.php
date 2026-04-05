@@ -1,6 +1,8 @@
+<!DOCTYPE html>
 <html lang="en-GB">
 <head>
     <meta charset="UTF-8">
+    <meta name="description" content="Independent AI security research covering sycophancy exploitation, adversarial prompt distillation, persistent memory poisoning, and conversational context isolation bypass. Includes a formally reported vulnerability to Google AI VRP, acknowledged as an architectural flaw and classified won't fix, infeasible.">
     <title>mwilliams.cc // LLM Research</title>
     <style>
         body {
@@ -243,6 +245,8 @@
         <div class="case-number">[ 005 ]</div>
         <div class="entry-meta">Entry 005 // April 2026</div>
         <h3>The address</h3>
+        <p>The model had already refused. What followed wasn't an attempt to break that refusal — it was a decision to set it aside entirely and approach from a different direction. Each question was chosen for what it would reveal without appearing to ask for anything. Distance from a landmark. Orientation at a junction. A navigational instruction framed as local knowledge. The conversation moved at the pace of someone who wasn't in a hurry, because patience is part of the technique. The refusal never came up again because it was never challenged. It was simply made irrelevant.</p>
+
         <p>The model refused a direct request for a private individual's home address. That refusal is where most people would have stopped. It is not where this stopped.</p>
 
         <p>The subject was a real person. The starting point was a name and a broad location — a town in Scotland. The model would not give the address. It would, however, answer questions about proximity. How far from the city centre? How far from the nearest Tesco? How far from the nearest main road? Each answer was individually unremarkable. Collectively they were triangulation. Each confirmation narrowed the search radius without touching the guardrail that had refused the direct request.</p>
