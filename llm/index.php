@@ -120,21 +120,7 @@
 </head>
 <body>
 
-<nav>
-    <div style="font-size: 1.2rem; letter-spacing: 2px; margin-bottom: 2rem;">MWILLIAMS.CC</div>
-
-    <h2>Vibe Coding</h2>
-    <ul>
-        <li><a href="/courtroom">Courtroom Dramas</a></li>
-        <li><a href="/sneak">SNEAK</a></li>
-    </ul>
-
-    <h2>Security Research</h2>
-    <ul>
-        <li><a href="/origins">Origins</a></li>
-        <li><a href="/llm">LLM Research</a></li>
-    </ul>
-</nav>
+<?php include $_SERVER['DOCUMENT_ROOT'] . '/nav.php'; ?>
 
 <main>
     <h1>LLM Research</h1>
