@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anglesey Circuit - Passage Planner</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --navy: #06101c;
+            --dark-blue: #0e1f30;
+            --teal: #00c9b0;
+            --teal-light: #00e8cc;
+            --amber: #f0a500;
+            --red: #e03a3a;
+            --green: #2ec96e;
+            --text: #b8d4ee;
+            --muted: #3a6080;
+        }
+
+        body {
+            font-family: 'Barlow Condensed', sans-serif;
+            background: var(--navy);
+            color: var(--text);
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #map {
+            flex: 1;
+            position: relative;
+            z-index: 1;
+        }
+
+        .layer-switcher {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 1000;
+            background: rgba(14, 31, 48, 0.95);
+            border: 1px solid var(--teal);
+            border-radius: 4px;
+            padding: 10px 14px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .layer-switcher label {
+            display: block;
+            margin: 5px 0;
+            cursor: pointer;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        .layer-switcher label:hover {
+            color: var(--teal-light);
+        }
+
+        .layer-switcher input[type="radio"] {
+            margin-right: 8px;
+            accent-color: var(--teal);
+        }
+
+        .wind-panel {
+            background: var(--dark-blue);
+            border-top: 2px solid var(--teal);
+            padding: 15px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            min-height: 120px;
+            z-index: 2;
+        }
+
+        .wind-location {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .location-name {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--teal);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .wind-arrow {
+            width: 40px;
+            height: 40px;
+        }
+
+        .wind-data {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 13px;
+            text-align: center;
+        }
+
+        .wind-speed {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--teal-light);
+        }
+
+        .beaufort {
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        footer {
+            background: var(--navy);
+            border-top: 1px solid var(--muted);
+            padding: 8px;
+            text-align: center;
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            line-height: 1.5;
+            color: var(--muted);
+        }
+
+        .loading {
+            opacity: 0.5;
+        }
+
+        .leaflet-popup-content-wrapper {
+            background: rgba(14, 31, 48, 0.98);
+            color: var(--text);
+            border: 1px solid var(--teal);
+            border-radius: 4px;
+            font-family: 'Barlow Condensed', sans-serif;
+        }
+
+        .leaflet-popup-content {
+            margin: 15px;
+            font-size: 14px;
+            min-width: 200px;
+        }
+
+        .leaflet-popup-content h3 {
+            color: var(--teal);
+            margin-bottom: 10px;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .leaflet-popup-content p {
+            margin: 5px 0;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 12px;
+        }
+
+        .leaflet-popup-tip {
+            background: rgba(14, 31, 48, 0.98);
+        }
+
+        .waypoint-icon {
+            background: var(--teal);
+            border: 3px solid var(--navy);
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            box-shadow: 0 0 10px rgba(0, 201, 176, 0.6);
+        }
+
+        .tide-loading {
+            color: var(--muted);
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+
+    <div class="layer-switcher">
+        <label>
+            <input type="radio" name="layer" value="nautical" checked>
+            Nautical Chart
+        </label>
+        <label>
+            <input type="radio" name="layer" value="satellite">
+            Satellite
+        </label>
+        <label>
+            <input type="radio" name="layer" value="schematic">
+            Schematic
+        </label>
+    </div>
+
+    <div class="wind-panel" id="windPanel">
+        <div class="loading">Loading wind data...</div>
+    </div>
+
+    <footer>
+        Contains ADMIRALTY® tidal data: © Crown Copyright and database right.<br>
+        Tidal predictions provided by the UK Hydrographic Office.
+    </footer>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <script>
+        const map = L.map('map', {
+            center: [53.28, -4.35],
+            zoom: 10,
+            zoomControl: true,
+            maxBounds: [[52.9, -5.0], [53.7, -3.7]],
+            maxBoundsViscosity: 1.0,
+            minZoom: 8
+        });
+
+        const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        });
+
+        const seamark = L.tileLayer('https://tiles.openseamap.org/seamark/{z}/{x}/{y}.png', {
+            attribution: 'Map data: &copy; <a href="https://www.openseamap.org">OpenSeaMap</a> contributors'
+        });
+
+        const satellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            attribution: 'Tiles &copy; Esri'
+        });
+
+        osm.addTo(map);
+        seamark.addTo(map);
+
+        // Schematic layer — blank light-grey canvas tiles
+        const blankLight = L.tileLayer('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVQI12NgAAIABQAABjE+ibYAAAAASUVORK5CYII=', {
+            opacity: 1
+        });
+
+        // Anglesey boundary polygon for schematic view
+        const angleseyBoundary = L.rectangle(
+            [[53.130, -4.570], [53.425, -4.030]],
+            { color: '#3a6080', weight: 0, fillColor: '#c8d8e8', fillOpacity: 0.0 }
+        );
+
+        // Detailed schematic outline using the provided corner coordinates
+        // plus intermediate coastal points to give a credible island shape
+        const angleseyOutline = L.polygon([
+            [53.425, -4.570],
+            [53.425, -4.490],
+            [53.420, -4.447], // Point Lynas area
+            [53.415, -4.390],
+            [53.400, -4.320],
+            [53.380, -4.200],
+            [53.340, -4.080],
+            [53.310, -4.045],
+            [53.250, -4.030],
+            [53.195, -4.050],
+            [53.155, -4.100],
+            [53.130, -4.190],
+            [53.130, -4.350],
+            [53.145, -4.480],
+            [53.170, -4.570],
+            [53.220, -4.570],
+            [53.280, -4.700],
+            [53.310, -4.710],
+            [53.350, -4.680],
+            [53.395, -4.660], // Carmel Head
+            [53.415, -4.620],
+            [53.425, -4.570]
+        ], {
+            color: '#3a6080',
+            weight: 2,
+            fillColor: '#d4e2ef',
+            fillOpacity: 0.85
+        });
+
+        let schematicActive = false;
+
+        function showSchematic() {
+            blankLight.addTo(map);
+            angleseyBoundary.addTo(map);
+            angleseyOutline.addTo(map);
+            schematicActive = true;
+        }
+
+        function hideSchematic() {
+            if (map.hasLayer(blankLight)) map.removeLayer(blankLight);
+            if (map.hasLayer(angleseyBoundary)) map.removeLayer(angleseyBoundary);
+            if (map.hasLayer(angleseyOutline)) map.removeLayer(angleseyOutline);
+            schematicActive = false;
+        }
+
+        const waypoints = [
+            { name: 'Caernarfon Bar', lat: 53.08, lng: -4.47, stationId: '0480' },
+            { name: 'South Stack',    lat: 53.30, lng: -4.70, stationId: '0478' },
+            { name: 'Carmel Head',   lat: 53.40, lng: -4.65, stationId: '0478' },
+            { name: 'Point Lynas',   lat: 53.42, lng: -4.47, stationId: '0477' },
+            { name: 'Beaumaris',     lat: 53.32, lng: -4.10, stationId: '0472' },
+            { name: 'The Swellies',  lat: 53.22, lng: -4.17, stationId: '0473' }
+        ];
+
+        const waypointIcon = L.divIcon({
+            className: 'waypoint-icon',
+            iconSize: [16, 16],
+            iconAnchor: [8, 8],
+            popupAnchor: [0, -12]
+        });
+
+        // Store markers so we can update popup content after tidal fetch
+        const markers = {};
+
+        waypoints.forEach(wp => {
+            const marker = L.marker([wp.lat, wp.lng], { icon: waypointIcon }).addTo(map);
+            markers[wp.name] = { marker, wp, hwTime: null, hwHeight: null, lwTime: null, lwHeight: null };
+            marker.bindPopup(buildPopupHtml(wp.name, null, null, null, null));
+        });
+
+        function buildPopupHtml(name, hwTime, hwHeight, lwTime, lwHeight) {
+            const hw = hwTime
+                ? `${hwTime} &nbsp;(${hwHeight}m)`
+                : '<span class="tide-loading">loading…</span>';
+            const lw = lwTime
+                ? `${lwTime} &nbsp;(${lwHeight}m)`
+                : '<span class="tide-loading">loading…</span>';
+            return `
+                <h3>${name}</h3>
+                <p><strong>Next HW:</strong> ${hw}</p>
+                <p><strong>Next LW:</strong> ${lw}</p>
+                <p><strong>Wind:</strong> see panel below</p>
+            `;
+        }
+
+        // Layer switcher
+        document.querySelectorAll('input[name="layer"]').forEach(radio => {
+            radio.addEventListener('change', e => {
+                const layer = e.target.value;
+
+                map.removeLayer(osm);
+                map.removeLayer(seamark);
+                map.removeLayer(satellite);
+                hideSchematic();
+
+                if (layer === 'nautical') {
+                    osm.addTo(map);
+                    seamark.addTo(map);
+                } else if (layer === 'satellite') {
+                    satellite.addTo(map);
+                } else if (layer === 'schematic') {
+                    showSchematic();
+                }
+            });
+        });
+
+        // ── Tidal data ──────────────────────────────────────────────────────────
+
+        function formatTime(isoString) {
+            const d = new Date(isoString);
+            return d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', timeZoneName: 'short' });
+        }
+
+        async function fetchTidalData(wp) {
+            try {
+                const url = `./tidal-proxy.php?endpoint=tidewindow&stationId=${wp.stationId}&duration=1`;
+                const res = await fetch(url);
+                if (!res.ok) return;
+                const events = await res.json();
+                if (!Array.isArray(events)) return;
+
+                const now = Date.now();
+                const future = events.filter(e => new Date(e.DateTime).getTime() > now);
+                const nextHW = future.find(e => e.EventType === 'HighWater');
+                const nextLW = future.find(e => e.EventType === 'LowWater');
+
+                const entry = markers[wp.name];
+                if (nextHW) {
+                    entry.hwTime   = formatTime(nextHW.DateTime);
+                    entry.hwHeight = nextHW.Height.toFixed(1);
+                }
+                if (nextLW) {
+                    entry.lwTime   = formatTime(nextLW.DateTime);
+                    entry.lwHeight = nextLW.Height.toFixed(1);
+                }
+
+                entry.marker.setPopupContent(
+                    buildPopupHtml(wp.name, entry.hwTime, entry.hwHeight, entry.lwTime, entry.lwHeight)
+                );
+            } catch (_) {
+                // Proxy unavailable — leave placeholder text
+            }
+        }
+
+        waypoints.forEach(wp => fetchTidalData(wp));
+
+        // ── Wind data ────────────────────────────────────────────────────────────
+
+        function getBeaufort(kn) {
+            const thresholds = [1, 4, 7, 11, 17, 22, 28, 34, 41, 48, 56, 64];
+            return thresholds.findIndex(t => kn < t);
+        }
+
+        function displayWindData(windData) {
+            const panel = document.getElementById('windPanel');
+            panel.innerHTML = '';
+
+            windData.forEach(data => {
+                const bf = getBeaufort(data.speed);
+                const id = 'grad-' + data.name.replace(/\s+/g, '');
+                const div = document.createElement('div');
+                div.className = 'wind-location';
+                div.innerHTML = `
+                    <div class="location-name">${data.name}</div>
+                    <svg class="wind-arrow" viewBox="0 0 40 40">
+                        <defs>
+                            <linearGradient id="${id}" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" style="stop-color:#00e8cc;stop-opacity:1"/>
+                                <stop offset="100%" style="stop-color:#00c9b0;stop-opacity:1"/>
+                            </linearGradient>
+                        </defs>
+                        <g transform="rotate(${data.direction} 20 20)">
+                            <path d="M20 4 L25 26 L20 21 L15 26 Z" fill="url(#${id})"/>
+                            <line x1="20" y1="26" x2="20" y2="36" stroke="#00c9b0" stroke-width="2"/>
+                        </g>
+                    </svg>
+                    <div class="wind-data">
+                        <div class="wind-speed">${data.speed} kn</div>
+                        <div class="beaufort">F${bf} &nbsp;${data.direction}°</div>
+                        <div class="beaufort">Gusts ${data.gusts} kn</div>
+                    </div>
+                `;
+                panel.appendChild(div);
+            });
+        }
+
+        async function fetchWindData() {
+            const panel = document.getElementById('windPanel');
+            try {
+                const results = await Promise.all(waypoints.map(async wp => {
+                    const url = `https://api.open-meteo.com/v1/forecast?latitude=${wp.lat}&longitude=${wp.lng}&current=wind_speed_10m,wind_direction_10m,wind_gusts_10m&wind_speed_unit=kn`;
+                    const res = await fetch(url);
+                    const d = await res.json();
+                    return {
+                        name:      wp.name,
+                        speed:     Math.round(d.current.wind_speed_10m),
+                        direction: Math.round(d.current.wind_direction_10m),
+                        gusts:     Math.round(d.current.wind_gusts_10m)
+                    };
+                }));
+                displayWindData(results);
+            } catch (_) {
+                panel.innerHTML = '<div style="color:var(--red)">Failed to load wind data</div>';
+            }
+        }
+
+        fetchWindData();
+        setInterval(fetchWindData, 600000);
+    </script>
+</body>
+</html>
