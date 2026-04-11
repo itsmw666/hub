@@ -42,9 +42,10 @@
         }
         .flash-active { animation: wind-flash 3s ease-in-out; }
 
-        .leaflet-popup-content-wrapper { background: var(--panel-bg); color: white; border: 1px solid var(--teal); }
+        .leaflet-popup-content-wrapper { background: var(--panel-bg); color: white; border: 1px solid var(--teal); min-width: 180px; }
         .leaflet-popup-tip { background: var(--teal); }
-        h3 { margin: 0 0 5px 0; color: var(--teal); font-size: 16px; }
+        h3 { margin: 0 0 8px 0; color: var(--teal); font-size: 16px; border-bottom: 1px solid #1a3a5a; padding-bottom: 4px; }
+        .tide-row { margin-bottom: 4px; font-size: 13px; }
     </style>
 </head>
 <body>
@@ -75,28 +76,35 @@
     waypoints.forEach(wp => {
         const m = L.circleMarker([wp.lat, wp.lon], {
             radius: 8, color: '#000', weight: 2, fillColor: '#00f2ff', fillOpacity: 1
-        }).addTo(map).bindPopup(`<h3>${wp.name}</h3><p>Loading tides...</p>`);
+        }).addTo(map).bindPopup(`<h3>${wp.name}</h3><div id="tide-${wp.stationId}">Loading tides...</div>`);
         markers[wp.name] = { marker: m, lat: wp.lat, lon: wp.lon };
     });
 
     async function updateTides() {
         for (const wp of waypoints) {
             try {
-                const res = await fetch(`./tidal-proxy.php?endpoint=tidewindow&stationId=${wp.stationId}&duration=1`);
+                // Increased duration to 24h to ensure we always capture the next HW and LW regardless of current time
+                const res = await fetch(`./tidal-proxy.php?endpoint=tidewindow&stationId=${wp.stationId}&duration=24`);
                 const data = await res.json();
                 const events = data.Items ? data.Items : (Array.isArray(data) ? data : []); 
+                
                 const now = new Date();
                 const future = events.filter(e => new Date(e.DateTime) > now);
-                const hw = future.find(e => e.EventType === 'HighWater');
-                const lw = future.find(e => e.EventType === 'LowWater');
                 
-                let content = '';
-                if (hw) content += `<strong>Next HW:</strong> ${new Date(hw.DateTime).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})} (${hw.Height.toFixed(1)}m)<br>`;
-                if (lw) content += `<strong>Next LW:</strong> ${new Date(lw.DateTime).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})} (${lw.Height.toFixed(1)}m)`;
+                const nextHW = future.find(e => e.EventType === 'HighWater');
+                const nextLW = future.find(e => e.EventType === 'LowWater');
                 
-                if (!content) content = "No tide data available";
-                markers[wp.name].marker.setPopupContent(`<h3>${wp.name}</h3><p>${content}</p>`);
-            } catch (e) { console.error("Tide error", e); }
+                let content = `<div class="tide-row">`;
+                content += nextHW ? `<strong>Next HW:</strong> ${new Date(nextHW.DateTime).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})} (${nextHW.Height.toFixed(1)}m)` : `<strong>Next HW:</strong> --:--`;
+                content += `</div><div class="tide-row">`;
+                content += nextLW ? `<strong>Next LW:</strong> ${new Date(nextLW.DateTime).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})} (${nextLW.Height.toFixed(1)}m)` : `<strong>Next LW:</strong> --:--`;
+                content += `</div>`;
+                
+                markers[wp.name].marker.getPopup().setContent(`<h3>${wp.name}</h3>${content}`);
+            } catch (e) { 
+                console.error("Tide error", e);
+                markers[wp.name].marker.getPopup().setContent(`<h3>${wp.name}</h3><p>Tide Data Unavailable</p>`);
+            }
         }
     }
 
