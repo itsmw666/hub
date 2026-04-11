@@ -10,8 +10,6 @@
             --bg-color: #06101c;
             --panel-bg: #0a1a2b;
             --teal: #00f2ff;
-            --radar-green: #00ff00;
-            --radar-land: #004400;
         }
         body, html { margin: 0; padding: 0; height: 100%; background: var(--bg-color); font-family: sans-serif; overflow: hidden; }
         #map { height: calc(100% - 120px); width: 100%; background: var(--bg-color); }
@@ -58,22 +56,11 @@
 <script>
     const map = L.map('map', { center: [53.3, -4.4], zoom: 10 });
 
-    const satLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}');
+    const satLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}').addTo(map);
     const chartLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
 
-    // Accurate Radar Schematic
-    const radarCoastline = [[53.44,-4.45],[53.48,-4.35],[53.45,-4.20],[53.38,-4.06],[53.30,-4.02],[53.22,-4.08],[53.16,-4.18],[53.12,-4.32],[53.13,-4.48],[53.18,-4.62],[53.28,-4.73],[53.38,-4.70],[53.44,-4.45]];
-    
-    const schematicIsland = L.polygon(radarCoastline, {
-        color: '#00ff00', 
-        weight: 2, 
-        fillColor: '#004400', 
-        fillOpacity: 1
-    });
-
-    const baseLayers = { "Radar": schematicIsland, "Nautical": chartLayer, "Satellite": satLayer };
+    const baseLayers = { "Satellite": satLayer, "Nautical": chartLayer };
     L.control.layers(baseLayers).addTo(map);
-    schematicIsland.addTo(map);
 
     const waypoints = [
         { name: "South Stack", lat: 53.306, lon: -4.698, stationId: "0478" },
@@ -104,9 +91,10 @@
                 const lw = future.find(e => e.EventType === 'LowWater');
                 
                 let content = '';
-                content += hw ? `<strong>Next HW:</strong> ${new Date(hw.DateTime).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})} (${hw.Height.toFixed(1)}m)<br>` : `<strong>Next HW:</strong> No data<br>`;
-                content += lw ? `<strong>Next LW:</strong> ${new Date(lw.DateTime).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})} (${lw.Height.toFixed(1)}m)` : `<strong>Next LW:</strong> No data`;
+                if (hw) content += `<strong>Next HW:</strong> ${new Date(hw.DateTime).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})} (${hw.Height.toFixed(1)}m)<br>`;
+                if (lw) content += `<strong>Next LW:</strong> ${new Date(lw.DateTime).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})} (${lw.Height.toFixed(1)}m)`;
                 
+                if (!content) content = "No tide data available";
                 markers[wp.name].marker.setPopupContent(`<h3>${wp.name}</h3><p>${content}</p>`);
             } catch (e) { console.error("Tide error", e); }
         }
@@ -147,4 +135,3 @@
 
 </body>
 </html>
-
