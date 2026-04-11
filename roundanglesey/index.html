@@ -12,52 +12,59 @@
             --teal: #00f2ff;
         }
         body, html { margin: 0; padding: 0; height: 100%; background: var(--bg-color); font-family: sans-serif; overflow: hidden; }
+        
+        /* Map takes up remaining space above the bars */
         #map { height: calc(100% - 140px); width: 100%; background: var(--bg-color); }
         
+        /* Wind Bar: Distributed across full width */
         #wind-panel {
             height: 120px;
             background: var(--panel-bg);
             display: flex;
-            overflow-x: auto;
-            border-top: 2px solid var(--teal);
+            justify-content: space-around; /* Spreads icons across the screen */
             align-items: center;
+            border-top: 2px solid var(--teal);
+            overflow-x: auto;
         }
         .wind-item {
-            flex: 0 0 120px;
+            flex: 1; /* Allows items to grow and fill space */
+            min-width: 90px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             color: var(--teal);
-            border-right: 1px solid #1a3a5a;
         }
-        .wind-name { font-size: 10px; text-transform: uppercase; margin-bottom: 5px; font-weight: bold; }
+        .wind-name { font-size: 10px; text-transform: uppercase; margin-bottom: 5px; font-weight: bold; text-align: center; }
         .wind-arrow { width: 30px; height: 30px; fill: var(--teal); transition: transform 0.5s ease; }
         .wind-data { font-size: 14px; font-weight: bold; margin-top: 2px; }
 
+        /* Mandatory Attribution Bar */
         #attribution-bar {
             height: 20px;
             background: #000;
-            color: #666;
+            color: #888;
             font-size: 10px;
             display: flex;
             align-items: center;
-            padding: 0 10px;
+            justify-content: center;
             border-top: 1px solid #1a3a5a;
         }
         #attribution-bar a { color: var(--teal); text-decoration: none; }
 
+        /* Update Flash Animation */
         @keyframes wind-flash {
             0% { filter: brightness(1); transform: scale(1); }
-            50% { filter: brightness(2.5) drop-shadow(0 0 10px #00f2ff); transform: scale(1.2); }
+            50% { filter: brightness(2.5) drop-shadow(0 0 8px var(--teal)); transform: scale(1.1); }
             100% { filter: brightness(1); transform: scale(1); }
         }
         .flash-active { animation: wind-flash 3s ease-in-out; }
 
+        /* Popup Styling */
         .leaflet-popup-content-wrapper { background: var(--panel-bg); color: white; border: 1px solid var(--teal); min-width: 180px; }
         .leaflet-popup-tip { background: var(--teal); }
         h3 { margin: 0 0 8px 0; color: var(--teal); font-size: 16px; border-bottom: 1px solid #1a3a5a; padding-bottom: 4px; }
-        .tide-row { margin-bottom: 4px; font-size: 13px; }
+        .tide-row { margin-bottom: 4px; font-size: 13px; font-family: monospace; }
     </style>
 </head>
 <body>
@@ -65,15 +72,20 @@
 <div id="map"></div>
 <div id="wind-panel"></div>
 <div id="attribution-bar">
-    Weather data by&nbsp;<a href="https://open-meteo.com/" target="_blank">Open-Meteo.com</a>&nbsp;| Tides via ADMIRALTY API
+    Weather via <a href="https://open-meteo.com/" target="_blank">Open-Meteo</a> | Tides via ADMIRALTY API | Charts via Esri Ocean
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
     const map = L.map('map', { center: [53.3, -4.4], zoom: 10 });
 
+    // Restored High-Fidelity Nautical Chart Source (Esri Oceans)
+    const chartLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Ocean/World_Ocean_Base/MapServer/tile/{z}/{y}/{x}', {
+        maxZoom: 13,
+        attribution: 'Esri, Garmin, GEBCO, NOAA'
+    });
+    
     const satLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}').addTo(map);
-    const chartLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
 
     const baseLayers = { "Satellite": satLayer, "Nautical": chartLayer };
     L.control.layers(baseLayers).addTo(map);
@@ -89,36 +101,37 @@
 
     const markers = {};
     waypoints.forEach(wp => {
+        // Corrected Marker logic to ensure interactivity is active
         const m = L.circleMarker([wp.lat, wp.lon], {
             radius: 8, color: '#000', weight: 2, fillColor: '#00f2ff', fillOpacity: 1, interactive: true
         }).addTo(map);
         
-        m.bindPopup(`<h3>${wp.name}</h3><div class="tide-content">Loading...</div>`);
+        m.bindPopup(`<h3>${wp.name}</h3><div class="tide-content">Fetching data...</div>`);
         markers[wp.name] = { marker: m, stationId: wp.stationId };
     });
 
     async function updateTides() {
         for (const wp of waypoints) {
             try {
-                const res = await fetch(`./tidal-proxy.php?endpoint=tidewindow&stationId=${wp.stationId}&duration=24`);
+                // Duration set to 48 hours to cross the midnight boundary safely
+                const res = await fetch(`./tidal-proxy.php?endpoint=tidewindow&stationId=${wp.stationId}&duration=48`);
                 const data = await res.json();
                 const events = data.Items || (Array.isArray(data) ? data : []); 
                 
                 const now = new Date();
                 const future = events.filter(e => new Date(e.DateTime) > now);
+                
                 const hw = future.find(e => e.EventType === 'HighWater');
                 const lw = future.find(e => e.EventType === 'LowWater');
                 
-                let html = `<div class="tide-row">`;
-                html += hw ? `<strong>Next HW:</strong> ${new Date(hw.DateTime).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})} (${hw.Height.toFixed(1)}m)` : `<strong>Next HW:</strong> --:--`;
-                html += `</div><div class="tide-row">`;
-                html += lw ? `<strong>Next LW:</strong> ${new Date(lw.DateTime).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})} (${lw.Height.toFixed(1)}m)` : `<strong>Next LW:</strong> --:--`;
-                html += `</div>`;
+                let html = '';
+                html += `<div class="tide-row"><strong>Next HW:</strong> ${hw ? new Date(hw.DateTime).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) + ' (' + hw.Height.toFixed(1) + 'm)' : 'Pending'}</div>`;
+                html += `<div class="tide-row"><strong>Next LW:</strong> ${lw ? new Date(lw.DateTime).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) + ' (' + lw.Height.toFixed(1) + 'm)' : 'Pending'}</div>`;
                 
                 markers[wp.name].marker.getPopup().setContent(`<h3>${wp.name}</h3>${html}`);
             } catch (e) { 
-                console.error(e);
-                markers[wp.name].marker.getPopup().setContent(`<h3>${wp.name}</h3><p>Data Error</p>`);
+                console.error("Tide error:", e);
+                markers[wp.name].marker.getPopup().setContent(`<h3>${wp.name}</h3><p>Data Unavailable</p>`);
             }
         }
     }
@@ -143,17 +156,23 @@
                     <div class="wind-data">${speed} kn</div>
                 `;
                 panel.appendChild(div);
+                
+                // Pulse effect lasts 3 seconds on load/refresh
                 setTimeout(() => {
                     const arrow = div.querySelector('.wind-arrow');
                     if(arrow) arrow.classList.remove('flash-active');
                 }, 3000);
-            } catch (e) { console.error(e); }
+            } catch (e) { console.error("Wind error:", e); }
         }
     }
 
+    // Initial Load
     updateTides();
     fetchWindData();
+    
+    // Refresh every 10 mins
     setInterval(fetchWindData, 600000);
+    setInterval(updateTides, 600000);
 </script>
 
 </body>
