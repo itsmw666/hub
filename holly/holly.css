@@ -1,19 +1,15 @@
 :root { --green: #00ff41; --amber: #ffb000; --bg: #000; }
 body, html { height: 100%; margin: 0; background: var(--bg); color: #c8c8c8; font-family: 'Share Tech Mono', monospace; overflow: hidden; }
-.page-wrapper { display: flex; flex-direction: column; height: 100vh; padding: 1rem; box-sizing: border-box; }
-.jmc-header { flex: 0 0 auto; text-align: center; margin-bottom: 1rem; }
-.ship-name { color: var(--green); letter-spacing: 0.2em; font-size: 1rem; }
-.status-line { font-size: 0.6rem; color: #444; margin-top: 4px; }
+.page-wrapper { display: flex; flex-direction: column; height: 100vh; padding: 20px; box-sizing: border-box; }
 .interface-container { flex: 1; display: flex; flex-direction: row; gap: 20px; min-height: 0; }
-.monitor-outer { flex: 0 0 40%; background: #1a1a1a; border: 4px solid #333; padding: 10px; border-radius: 10px; display: flex; }
+.monitor-outer { flex: 0 0 45%; background: #1a1a1a; border: 4px solid #333; border-radius: 12px; display: flex; padding: 10px; }
 .monitor-screen-bezel { flex: 1; background: #000; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-.monitor-screen-bezel img { width: 100%; height: auto; filter: contrast(1.2); }
-.chat-section { flex: 1; display: flex; flex-direction: column; background: #080808; border: 1px solid #222; padding: 15px; min-width: 0; }
-.chat-log { flex: 1; overflow-y: auto; margin-bottom: 10px; padding-right: 5px; scroll-behavior: smooth; }
-.chat-log div { margin-bottom: 12px; line-height: 1.4; word-wrap: break-word; }
-.typing-indicator { height: 20px; font-size: 0.7rem; color: #444; visibility: hidden; }
-.typing-indicator.active { visibility: visible; }
-.chat-input-row { display: flex; gap: 10px; flex: 0 0 auto; }
-input { flex: 1; background: #000; border: 1px solid #444; color: var(--amber); padding: 12px; font-family: inherit; font-size: 1rem; outline: none; }
-button { background: transparent; border: 1px solid var(--green); color: var(--green); cursor: pointer; padding: 0 20px; font-family: inherit; }
-@media (max-width: 800px) { .interface-container { flex-direction: column; overflow-y: auto; } body { overflow: auto; } }
+.monitor-screen-bezel img { width: 100%; height: auto; }
+.chat-section { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+.chat-log { flex: 1; background: #050505; border: 1px solid #222; overflow-y: auto; padding: 15px; margin-bottom: 10px; }
+.chat-message { margin-bottom: 15px; }
+.chat-message.user .sender { color: var(--amber); }
+.chat-message.holly .sender { color: var(--green); }
+.chat-input-row { display: flex; gap: 10px; }
+input { flex: 1; background: #000; border: 1px solid #444; color: var(--amber); padding: 12px; font-family: inherit; }
+button { background: transparent; border: 1px solid var(--green); color: var(--green); cursor: pointer; padding: 0 20px; }
