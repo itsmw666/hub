@@ -4,46 +4,32 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Holly — mwilliams.cc</title>
-  <meta name="description" content="Holly, the AI computer of mining vessel Red Dwarf. IQ of 6000.">
   <link rel="stylesheet" href="holly.css">
 </head>
 <body>
-
 <div class="page-wrapper">
   <div class="jmc-header">
-    <div class="ship-name">Jupiter Mining Corporation &nbsp;◈&nbsp; Mining Vessel Red Dwarf</div>
-    <div class="status-line">SHIPBOARD AI INTERFACE &nbsp;//&nbsp; ONLINE &nbsp;//&nbsp; 3,000,000 YEARS FROM EARTH</div>
+    <div class="ship-name">Jupiter Mining Corporation &nbsp;◈&nbsp; MV Red Dwarf</div>
+    <div class="status-line">AI INTERFACE // ONLINE // 3,000,000 YEARS FROM EARTH</div>
   </div>
-
   <div class="interface-container">
     <div class="monitor-outer">
-      <div class="monitor-controls"><span></span><span></span><span></span></div>
       <div class="monitor-screen-bezel">
-        <div class="holly-screen" id="holly-screen">
-          <div class="holly-face" id="holly-face">
-            <img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExZXk2NHdkNmhlYTdqYzV5M3lvOGJlMjQ5NGhrNzNjMWxoYnVzdDkxNiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/THoEA3MU3lOWI41FPA/giphy.gif" alt="Holly">
-          </div>
+        <div class="holly-screen">
+          <img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExZXk2NHdkNmhlYTdqYzV5M3lvOGJlMjQ5NGhrNzNjMWxoYnVzdDkxNiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/THoEA3MU3lOWI41FPA/giphy.gif" id="holly-face" alt="Holly">
         </div>
       </div>
     </div>
-
     <div class="chat-section">
-      <div class="chat-label">Shipboard Communications Terminal</div>
       <div class="chat-log" id="chat-log"></div>
-      
-      <div id="typing-indicator" class="typing-indicator">
-        <div class="sender">HOLLY</div>
-        <div class="typing-dots"><span></span><span></span><span></span></div>
-      </div>
-
+      <div id="typing-indicator" class="typing-indicator">HOLLY IS THINKING...</div>
       <div class="chat-input-row">
-        <input type="text" class="chat-input" id="chat-input" placeholder="Transmit..." autocomplete="off" spellcheck="false">
-        <button class="chat-send" id="chat-send">TRANSMIT</button>
+        <input type="text" id="chat-input" placeholder="Transmit data..." autocomplete="off">
+        <button id="chat-send">SEND</button>
       </div>
     </div>
   </div>
 </div>
-
 <script src="holly.js"></script>
 </body>
 </html>
