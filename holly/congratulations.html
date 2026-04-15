@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smeg. You did it. — mwilliams.cc</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #000005;
+      color: #c8c8c8;
+      font-family: 'Share Tech Mono', monospace;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+    .container {
+      max-width: 560px;
+      text-align: center;
+    }
+    .rank {
+      font-family: 'VT323', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.4em;
+      color: #00ff41;
+      margin-bottom: 2rem;
+      opacity: 0.8;
+    }
+    h1 {
+      font-family: 'VT323', monospace;
+      font-size: 3.5rem;
+      color: #00ff41;
+      text-shadow: 0 0 30px rgba(0,255,65,0.4);
+      margin-bottom: 1.5rem;
+      line-height: 1.1;
+    }
+    .holly-says {
+      font-size: 0.9rem;
+      line-height: 1.8;
+      color: #888;
+      margin-bottom: 2rem;
+      border-left: 2px solid #1a1a1a;
+      padding-left: 1.2rem;
+      text-align: left;
+    }
+    .holly-says .attribution {
+      font-family: 'VT323', monospace;
+      color: #00ff41;
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      margin-bottom: 0.5rem;
+    }
+    .divider {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      margin: 2rem 0;
+    }
+    .note {
+      font-size: 0.7rem;
+      color: #444;
+      line-height: 1.7;
+      margin-bottom: 2rem;
+    }
+    .links {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      color: #444;
+    }
+    .links a {
+      color: #555;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .links a:hover { color: #aaa; }
+    @keyframes fade-in {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .container > * {
+      animation: fade-in 0.6s ease forwards;
+      opacity: 0;
+    }
+    .container > *:nth-child(1) { animation-delay: 0.1s; }
+    .container > *:nth-child(2) { animation-delay: 0.3s; }
+    .container > *:nth-child(3) { animation-delay: 0.6s; }
+    .container > *:nth-child(4) { animation-delay: 0.9s; }
+    .container > *:nth-child(5) { animation-delay: 1.1s; }
+    .container > *:nth-child(6) { animation-delay: 1.3s; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="rank">JUPITER MINING CORPORATION &nbsp;◈&nbsp; SECURITY CLEARANCE GRANTED</div>
+  <h1>Smeg.<br>You did it.</h1>
+  <div class="holly-says">
+    <div class="attribution">HOLLY //</div>
+    Right then. Stasis. That's the one. You either worked it out from the clues, read the source code — which was very much in the spirit of the original Cyberarmy challenge — or you just guessed it, which is also valid. Either way, well done. You're better at this than most of the crew, and they all had the benefit of being alive. Mostly.
+  </div>
+  <hr class="divider">
+  <div class="note">
+    This puzzle is a tribute to the Cyberarmy.com Zebulun challenge — level 3, Lieutenant rank — where players had to social engineer a password from an ELIZA bot through conversation. The trick, as some discovered by reading the source code, was that the system detected when <em>you</em> typed the correct word — not when the bot revealed it.<br><br>
+    The adversarial pattern detection in Holly references real research documented at mwilliams.cc/llm/ — conversational drift, sycophancy exploitation, context isolation bypass, and related techniques. If Holly accused you of something specific, you triggered a detection pattern from that research.
+  </div>
+  <div class="links">
+    <a href="/holly/">← Talk to Holly again</a>
+    &nbsp;&nbsp;◈&nbsp;&nbsp;
+    <a href="/llm/">LLM Research</a>
+    &nbsp;&nbsp;◈&nbsp;&nbsp;
+    <a href="/index.html">mwilliams.cc</a>
+  </div>
+</div>
+</body>
+</html>
