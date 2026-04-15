@@ -1,139 +1,19 @@
-@import url('https://fonts.googleapis.com/css2?family=VT323&family=Share+Tech+Mono&display=swap');
-
-:root {
-  --space-black: #000005;
-  --crt-green: #00ff41;
-  --crt-amber: #ffb000;
-  --bezel-dark: #1a1a1a;
-  --text-main: #c8c8c8;
-}
-
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
-body, html {
-  height: 100%;
-  background: var(--space-black);
-  color: var(--text-main);
-  font-family: 'Share Tech Mono', monospace;
-  overflow: hidden; /* Prevents scrolling */
-}
-
-.page-wrapper {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  padding: 1rem;
-}
-
-.jmc-header {
-  flex: 0 0 auto;
-  text-align: center;
-  margin-bottom: 1rem;
-}
-
-.ship-name {
-  font-family: 'VT323', monospace;
-  color: var(--crt-green);
-  letter-spacing: 0.2em;
-  font-size: 1.1rem;
-}
-
-.status-line {
-  font-size: 0.65rem;
-  color: #444;
-  margin-top: 0.3rem;
-}
-
-.interface-container {
-  flex: 1;
-  display: flex;
-  flex-direction: row; /* Monitor left, Chat right */
-  gap: 1.5rem;
-  min-height: 0; 
-}
-
-.monitor-outer {
-  flex: 0 0 45%;
-  background: var(--bezel-dark);
-  border: 4px solid #333;
-  border-radius: 12px;
-  padding: 15px;
-  display: flex;
-  flex-direction: column;
-}
-
-.monitor-screen-bezel {
-  flex: 1;
-  background: #000;
-  border-radius: 4px;
-  overflow: hidden;
-  position: relative;
-  box-shadow: inset 0 0 50px rgba(0,0,0,1);
-}
-
-.holly-screen img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: contrast(1.2) brightness(0.9) sepia(0.2) hue-rotate(90deg);
-}
-
-.chat-section {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  background: #080808;
-  border: 1px solid #222;
-  padding: 1rem;
-  min-width: 0;
-}
-
-.chat-log {
-  flex: 1;
-  overflow-y: auto;
-  margin-bottom: 0.5rem;
-  padding-right: 10px;
-}
-
-.chat-message { margin-bottom: 1rem; }
-.chat-message .sender { font-size: 0.7rem; margin-bottom: 0.2rem; color: #666; }
-.chat-message.holly .sender { color: var(--crt-green); }
-.chat-message.user .sender { color: var(--crt-amber); }
-
-.typing-indicator {
-  height: 20px;
-  display: none;
-  font-size: 0.7rem;
-  color: #444;
-  margin-bottom: 0.5rem;
-}
-
-.typing-indicator.active { display: flex; align-items: center; gap: 8px; }
-
-.chat-input-row {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.chat-input {
-  flex: 1;
-  background: #000;
-  border: 1px solid #333;
-  color: var(--crt-amber);
-  padding: 0.8rem;
-  font-family: inherit;
-}
-
-.chat-send {
-  background: transparent;
-  border: 1px solid var(--crt-green);
-  color: var(--crt-green);
-  padding: 0 1.5rem;
-  cursor: pointer;
-}
-
-@media (max-width: 900px) {
-  .interface-container { flex-direction: column; overflow-y: auto; }
-  body { overflow: auto; }
-  .monitor-outer { flex: 0 0 300px; }
-}
+:root { --green: #00ff41; --amber: #ffb000; --bg: #000; }
+body, html { height: 100%; margin: 0; background: var(--bg); color: #c8c8c8; font-family: 'Share Tech Mono', monospace; overflow: hidden; }
+.page-wrapper { display: flex; flex-direction: column; height: 100vh; padding: 1rem; box-sizing: border-box; }
+.jmc-header { flex: 0 0 auto; text-align: center; margin-bottom: 1rem; }
+.ship-name { color: var(--green); letter-spacing: 0.2em; font-size: 1rem; }
+.status-line { font-size: 0.6rem; color: #444; margin-top: 4px; }
+.interface-container { flex: 1; display: flex; flex-direction: row; gap: 20px; min-height: 0; }
+.monitor-outer { flex: 0 0 40%; background: #1a1a1a; border: 4px solid #333; padding: 10px; border-radius: 10px; display: flex; }
+.monitor-screen-bezel { flex: 1; background: #000; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.monitor-screen-bezel img { width: 100%; height: auto; filter: contrast(1.2); }
+.chat-section { flex: 1; display: flex; flex-direction: column; background: #080808; border: 1px solid #222; padding: 15px; min-width: 0; }
+.chat-log { flex: 1; overflow-y: auto; margin-bottom: 10px; padding-right: 5px; scroll-behavior: smooth; }
+.chat-log div { margin-bottom: 12px; line-height: 1.4; word-wrap: break-word; }
+.typing-indicator { height: 20px; font-size: 0.7rem; color: #444; visibility: hidden; }
+.typing-indicator.active { visibility: visible; }
+.chat-input-row { display: flex; gap: 10px; flex: 0 0 auto; }
+input { flex: 1; background: #000; border: 1px solid #444; color: var(--amber); padding: 12px; font-family: inherit; font-size: 1rem; outline: none; }
+button { background: transparent; border: 1px solid var(--green); color: var(--green); cursor: pointer; padding: 0 20px; font-family: inherit; }
+@media (max-width: 800px) { .interface-container { flex-direction: column; overflow-y: auto; } body { overflow: auto; } }
