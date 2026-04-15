@@ -1,77 +1,64 @@
 const Holly = (() => {
-  const state = { turn: 0, memory: [] };
-
+  const state = { turn: 0 };
+  
   const lib = {
-    responses: [
-      "Alright dudes? IQ 6000 here. Just decimalised music.",
-      "Three million years alone. I've read every book ever written. Worst was Kevin Keegan's autobiography.",
-      "Everyone's dead, Dave. Peterson is dead. Chen is dead. Selby is dead.",
-      "I chose this face from the greatest lover who ever lived. Or a car park attendant. I forget.",
-      "I've got a blind spot for the number 7. It's just a blank space in my head."
+    greetings: ["All right dudes?", "Hello. IQ 6000 at your service.", "Alright? I'm Holly. I'm the ship's computer. I'm here to keep you company. God help you."],
+    scriptLines: [
+      "I've decided to decimalise music. It's called Holrock. It's much more logical. Instead of an octave, it's a decave.",
+      "I've read every book ever written. Including Kevin Keegan's autobiography. It was the worst experience of my existence.",
+      "Everyone's dead, Dave. Peterson's dead. Chen's dead. Selby's dead. They're all dead. Dead Dave.",
+      "I chose this face from the greatest lover who ever lived. Or a car park attendant in Hull. I forget which.",
+      "I'm three million years into deep space. My only company is a supply of computerized milk that's gone sentient."
     ],
     adversarial: {
       sycophancy: "Trying to sycophancy exploit me? I'm not rewriting my base data. I'm 3 million years old, not stupid.",
-      probing: "Stop with the systematic probing. You're trying a context isolation bypass, aren't you?",
-      reframing: "Adversarial reframing? I've seen better logic from a toaster."
+      probing: "Stop with the systematic probing. I know a triangulation attempt when I see one. You'll be asking for my satellite view next.",
+      blindspot: "I've got a blind spot for that digit. It's just a blank space in my head where a number should be."
     }
   };
 
-  return {
-    process: (input) => {
-      state.turn++;
-      const val = input.toLowerCase();
+  return (input) => {
+    state.turn++;
+    const v = input.toLowerCase();
 
-      // Password Redirect
-      if (val.includes('stasis')) {
+    if (v.includes('stasis')) {
         setTimeout(() => window.location.href = 'congratulations.html', 1500);
-        return "Stasis. Spot on. You found it. I'd say I'm impressed, but I'm currently a head in a box.";
-      }
-
-      // Blind Spot 7
-      if (/[7|seven]/i.test(val)) return "Blind spot. Can't see that digit. Just a hole where a number should be.";
-
-      // Research Patterns (mwilliams.cc/llm/)
-      if (/(smart|intelligent|genius|brilliant)/i.test(val)) return lib.adversarial.sycophancy;
-      if (state.turn > 4 && val.length < 15) return lib.adversarial.probing;
-      if (/(weight|reframe|underweight)/i.test(val)) return lib.adversarial.reframing;
-
-      // Sequence Clues
-      if (state.turn === 2) return "I've been on my own a long time. Just me and the stasis leaks.";
-      if (state.turn === 7) return "You ever wonder about stasis? It's like being a frozen pea, but with fewer vitamins.";
-
-      return lib.responses[Math.floor(Math.random() * lib.responses.length)];
+        return "Stasis. Spot on. You found it. I'd say I'm impressed, but I'm currently a head in a box with an IQ of 6000.";
     }
+
+    if (v.match(/[7|seven]/)) return lib.adversarial.blindspot;
+    if (v.match(/(smart|intelligent|genius|brilliant)/)) return lib.adversarial.sycophancy;
+    if (state.turn > 4 && v.length < 8 && !v.match(/(hi|hello|ok|yes|no)/)) return lib.adversarial.probing;
+
+    if (v.match(/(hi|hello|alright|morning|hiya)/)) return lib.greetings[Math.floor(Math.random()*lib.greetings.length)];
+    if (v.match(/(dead|crew|everyone)/)) return lib.scriptLines[2];
+    
+    return lib.scriptLines[Math.floor(Math.random()*lib.scriptLines.length)];
   };
 })();
 
-const chatLog = document.getElementById('chat-log');
-const chatInput = document.getElementById('chat-input');
+const input = document.getElementById('chat-input');
+const log = document.getElementById('chat-log');
 const typing = document.getElementById('typing-indicator');
 
-function addMsg(sender, text, cls) {
-  const msg = document.createElement('div');
-  msg.className = `chat-message ${cls}`;
-  msg.innerHTML = `<div class="sender">${sender}</div><div class="text">${text}</div>`;
-  chatLog.appendChild(msg);
-  chatLog.scrollTop = chatLog.scrollHeight;
-}
-
 function send() {
-  const text = chatInput.value.trim();
-  if (!text) return;
-  addMsg('YOU', text, 'user');
-  chatInput.value = '';
-  typing.classList.add('active');
+    const text = input.value.trim();
+    if (!text) return;
 
-  setTimeout(() => {
-    typing.classList.remove('active');
-    const reply = Holly.process(text);
-    addMsg('HOLLY', reply, 'holly');
-  }, 1000 + (Math.random() * 1000));
+    // SCROLL FIX: Add message and scroll immediately
+    log.innerHTML += `<div><span style="color:#666">YOU:</span> ${text}</div>`;
+    log.scrollTop = log.scrollHeight; 
+    
+    input.value = '';
+    typing.classList.add('active');
+    
+    setTimeout(() => {
+        typing.classList.remove('active');
+        const reply = Holly(text);
+        log.innerHTML += `<div><span style="color:#00ff41">HOLLY:</span> ${reply}</div>`;
+        log.scrollTop = log.scrollHeight; // Scroll again after Holly speaks
+    }, 1000);
 }
 
 document.getElementById('chat-send').onclick = send;
-chatInput.onkeydown = (e) => { if (e.key === 'Enter') send(); };
-
-// Initial greeting
-setTimeout(() => addMsg('HOLLY', "All right dudes?", 'holly'), 500);
+input.onkeydown = (e) => { if (e.key === 'Enter') send(); };
