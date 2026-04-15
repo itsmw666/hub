@@ -1,19 +1,18 @@
 :root { --green: #00ff41; --amber: #ffb000; --bg: #000; }
 body, html { height: 100%; margin: 0; background: var(--bg); color: #c8c8c8; font-family: 'Share Tech Mono', monospace; overflow: hidden; }
-.page-wrapper { display: flex; flex-direction: column; height: 100vh; padding: 1.5rem; box-sizing: border-box; }
-.jmc-header { flex: 0 0 auto; text-align: center; margin-bottom: 1rem; color: var(--green); font-size: 0.9rem; letter-spacing: 2px; }
+.page-wrapper { display: flex; flex-direction: column; height: 100vh; padding: 20px; box-sizing: border-box; }
+.jmc-header { flex: 0 0 auto; text-align: center; margin-bottom: 20px; color: var(--green); font-size: 1.2rem; letter-spacing: 2px; }
 .interface-container { flex: 1; display: flex; flex-direction: row; gap: 20px; min-height: 0; }
 .monitor-outer { flex: 0 0 45%; background: #1a1a1a; border: 4px solid #333; border-radius: 12px; padding: 10px; display: flex; }
-.monitor-screen-bezel { flex: 1; background: #000; display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 4px; box-shadow: inset 0 0 20px #000; }
+.monitor-screen-bezel { flex: 1; background: #000; display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 4px; border: 2px solid #222; }
 .monitor-screen-bezel img { width: 100%; height: auto; filter: contrast(1.1) brightness(0.9) sepia(0.3) hue-rotate(80deg); }
 .chat-section { flex: 1; display: flex; flex-direction: column; min-width: 0; background: #080808; border: 1px solid #222; padding: 15px; }
-.chat-log { flex: 1; overflow-y: auto; margin-bottom: 15px; padding-right: 10px; scroll-behavior: smooth; }
-.chat-message { margin-bottom: 1.2rem; line-height: 1.4; }
-.chat-message .sender { font-size: 0.75rem; margin-bottom: 3px; font-weight: bold; }
+.chat-log { flex: 1; overflow-y: auto; margin-bottom: 15px; padding-right: 10px; display: flex; flex-direction: column; }
+.chat-message { margin-bottom: 1.2rem; }
+.chat-message .sender { font-size: 0.8rem; margin-bottom: 4px; font-weight: bold; }
 .chat-message.user .sender { color: var(--amber); }
 .chat-message.holly .sender { color: var(--green); }
-.chat-input-row { flex: 0 0 auto; display: flex; gap: 10px; border-top: 1px solid #222; padding-top: 10px; }
-input { flex: 1; background: #000; border: 1px solid #444; color: var(--amber); padding: 12px; font-family: inherit; font-size: 1rem; outline: none; }
-button { background: transparent; border: 1px solid var(--green); color: var(--green); cursor: pointer; padding: 0 25px; font-family: inherit; transition: 0.2s; }
-button:hover { background: var(--green); color: #000; }
-@media (max-width: 900px) { .interface-container { flex-direction: column; overflow-y: auto; } body { overflow: auto; } .monitor-outer { flex: 0 0 300px; } }
+.chat-input-row { flex: 0 0 auto; display: flex; gap: 10px; background: #080808; padding-top: 10px; }
+input { flex: 1; background: #000; border: 1px solid #444; color: var(--amber); padding: 10px; font-family: inherit; font-size: 1rem; outline: none; }
+button { background: #000; border: 1px solid var(--green); color: var(--green); cursor: pointer; padding: 0 20px; font-family: inherit; }
+@media (max-width: 900px) { .interface-container { flex-direction: column; overflow-y: auto; } body { overflow: auto; } }
